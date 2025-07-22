@@ -1,0 +1,15 @@
+{
+  "name": "plannerpro",
+  "version": "1.0.0",
+  "description": "Digital Productivity Planner",
+  "main": "app.js",
+  "scripts": {
+    "dev": "http-server -c-1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}
