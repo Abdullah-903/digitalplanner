@@ -757,11 +757,60 @@ select.form-control {
   padding: var(--space-12) 0;
 }
 
+/* Logo Styles */
 .logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-bold);
+  font-weight: 700;
   color: var(--color-primary);
-  margin: 0;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.logo-icon {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, var(--color-primary), #0ea5e9);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(31, 184, 205, 0.3);
+  transition: all 0.3s ease;
+}
+
+.logo-icon svg {
+  width: 20px;
+  height: 20px;
+  fill: white;
+}
+
+.logo-text {
+  background: linear-gradient(135deg, var(--color-primary), #0ea5e9);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.logo:hover {
+  transform: translateY(-1px);
+}
+
+.logo:hover .logo-icon {
+  transform: rotate(5deg) scale(1.1);
+  box-shadow: 0 4px 16px rgba(31, 184, 205, 0.4);
+}
+
+.logo:hover .logo-text {
+  background: linear-gradient(135deg, #0ea5e9, var(--color-primary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .nav-tabs {
