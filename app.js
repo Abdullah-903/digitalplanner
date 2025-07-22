@@ -836,22 +836,54 @@ document.addEventListener('DOMContentLoaded', function() {
       const mobileNav = document.createElement('div');
       mobileNav.className = 'mobile-nav';
       mobileNav.innerHTML = `
-        <div class="mobile-nav-item active" data-tab="dashboard">📊<br>Dashboard</div>
-        <div class="mobile-nav-item" data-tab="tasks">✅<br>Tasks</div>
-        <div class="mobile-nav-item" data-tab="goals">🎯<br>Goals</div>
-        <div class="mobile-nav-item" data-tab="premium">👑<br>Premium</div>
+        <div class="mobile-nav-item active" data-tab="dashboard">
+          <span>📊</span>
+          <span>Dashboard</span>
+        </div>
+        <div class="mobile-nav-item" data-tab="tasks">
+          <span>✅</span>
+          <span>Tasks</span>
+        </div>
+        <div class="mobile-nav-item" data-tab="goals">
+          <span>🎯</span>
+          <span>Goals</span>
+        </div>
+        <div class="mobile-nav-item" data-tab="habits">
+          <span>🔥</span>
+          <span>Habits</span>
+        </div>
+        <div class="mobile-nav-item" data-tab="analytics">
+          <span>📈</span>
+          <span>Analytics</span>
+        </div>
+        <div class="mobile-nav-item" data-tab="templates">
+          <span>📝</span>
+          <span>Templates</span>
+        </div>
+        <div class="mobile-nav-item" data-tab="premium">
+          <span>👑</span>
+          <span>Premium</span>
+        </div>
       `;
       document.body.appendChild(mobileNav);
       
       mobileNav.addEventListener('click', (e) => {
-        if (e.target.matches('.mobile-nav-item')) {
-          const tabName = e.target.dataset.tab;
+        const navItem = e.target.closest('.mobile-nav-item');
+        if (navItem) {
+          const tabName = navItem.dataset.tab;
           if (tabName) {
             switchTab(tabName);
             
             document.querySelectorAll('.mobile-nav-item').forEach(i => i.classList.remove('active'));
-            e.target.classList.add('active');
+            navItem.classList.add('active');
           }
+        }
+      });
+      
+      // Handle window resize to remove mobile nav on larger screens
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 767 && document.querySelector('.mobile-nav')) {
+          document.querySelector('.mobile-nav').remove();
         }
       });
     }
