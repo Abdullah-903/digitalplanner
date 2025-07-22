@@ -65,7 +65,7 @@
                 <div class="dashboard-card today-tasks">
                     <div class="card-header">
                         <h3>Today's Tasks</h3>
-                        <button class="btn btn--outline btn--sm add-quick-task">+ Add Task</button>
+                        <button class="btn btn--outline btn--sm add-quick-task glow">+ Add Task</button>
                     </div>
                     <div class="task-list" id="dashboardTasks">
                         <div class="task-item">
@@ -89,7 +89,7 @@
                 <div class="dashboard-card current-goals">
                     <div class="card-header">
                         <h3>Current Goals</h3>
-                        <button class="btn btn--outline btn--sm" onclick="switchTab('goals')">View All</button>
+                        <button class="btn btn--outline btn--sm tooltip" onclick="switchTab('goals')" data-tooltip="See all your goals">View All</button>
                     </div>
                     <div class="goals-preview">
                         <div class="goal-item">
@@ -122,7 +122,7 @@
                 <div class="dashboard-card habit-streak">
                     <div class="card-header">
                         <h3>Habit Tracker</h3>
-                        <button class="btn btn--outline btn--sm" onclick="switchTab('habits')">View All</button>
+                        <button class="btn btn--outline btn--sm tooltip" onclick="switchTab('habits')" data-tooltip="Track all your habits">View All</button>
                     </div>
                     <div class="habits-preview">
                         <div class="habit-item">
@@ -151,7 +151,7 @@
             <div class="section-header">
                 <h2>Task Management</h2>
                 <div class="section-actions">
-                    <button class="btn btn--primary add-task-btn">+ Add Task</button>
+                    <button class="btn btn--primary add-task-btn pulse">+ Add Task</button>
                 </div>
             </div>
 
@@ -206,7 +206,7 @@
             <div class="section-header">
                 <h2>Goal Tracking</h2>
                 <div class="section-actions">
-                    <button class="btn btn--primary add-goal-btn">+ Add Goal</button>
+                    <button class="btn btn--primary add-goal-btn glow">+ Add Goal</button>
                 </div>
             </div>
 
@@ -535,7 +535,7 @@
                             <li>✅ No watermarks</li>
                             <li>✅ Email support</li>
                         </ul>
-                        <button class="btn btn--primary">Choose Basic</button>
+                        <button class="btn btn--primary clickable">Choose Basic</button>
                     </div>
                     <div class="upgrade-plan popular">
                         <div class="popular-badge">Most Popular</div>
@@ -548,7 +548,7 @@
                             <li>✅ AI insights</li>
                             <li>✅ Priority support</li>
                         </ul>
-                        <button class="btn btn--primary">Start Free Trial</button>
+                        <button class="btn btn--primary clickable pulse">Start Free Trial</button>
                     </div>
                 </div>
             </div>

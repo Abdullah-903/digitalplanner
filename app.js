@@ -73,15 +73,18 @@ function showNotification(message, type = 'info') {
   
   if (type === 'success') {
     notification.style.borderLeft = '4px solid var(--color-success)';
+    notification.innerHTML = `<span class="success-checkmark"></span> ${message}`;
   } else if (type === 'error') {
     notification.style.borderLeft = '4px solid var(--color-error)';
+    notification.innerHTML = `<span style="color: var(--color-error);">⚠️</span> ${message}`;
   } else if (type === 'warning') {
     notification.style.borderLeft = '4px solid var(--color-warning)';
+    notification.innerHTML = `<span style="color: var(--color-warning);">⚡</span> ${message}`;
   } else {
     notification.style.borderLeft = '4px solid var(--color-primary)';
+    notification.innerHTML = `<span style="color: var(--color-primary);">ℹ️</span> ${message}`;
   }
   
-  notification.textContent = message;
   document.body.appendChild(notification);
   
   // Animate in
@@ -287,18 +290,44 @@ function addTask(title, priority, dueDate) {
     return false;
   }
   
-  const newTask = {
-    id: appState.taskIdCounter++,
-    title,
-    priority,
-    completed: false,
-    dueDate: dueDate || new Date().toISOString().split('T')[0]
-  };
+  // Add loading state
+  const addButton = document.querySelector('#addTaskModal .btn--primary');
+  if (addButton) {
+    addButton.innerHTML = '<div class="spinner"></div> Adding...';
+    addButton.disabled = true;
+  }
   
-  appState.tasks.unshift(newTask);
-  if (appState.currentTab === 'tasks') renderTasks();
-  updateDashboard();
-  showNotification('Task added successfully! 🎉', 'success');
+  // Simulate API call delay for better UX
+  setTimeout(() => {
+    const newTask = {
+      id: appState.taskIdCounter++,
+      title,
+      priority,
+      completed: false,
+      dueDate: dueDate || new Date().toISOString().split('T')[0]
+    };
+    
+    appState.tasks.unshift(newTask);
+    if (appState.currentTab === 'tasks') renderTasks();
+    updateDashboard();
+    
+    // Reset button
+    if (addButton) {
+      addButton.innerHTML = 'Add Task';
+      addButton.disabled = false;
+    }
+    
+    showNotification('Task added successfully! 🎉', 'success');
+    
+    // Add bounce animation to new task
+    setTimeout(() => {
+      const newTaskElement = document.querySelector(`[data-task-id="${newTask.id}"]`);
+      if (newTaskElement) {
+        newTaskElement.closest('.task-item').classList.add('bounce-in');
+      }
+    }, 100);
+  }, 800);
+  
   return true;
 }
 
@@ -306,9 +335,29 @@ function toggleTask(taskId) {
   const task = appState.tasks.find(t => t.id === taskId);
   if (task) {
     task.completed = !task.completed;
+    
+    // Add visual feedback
+    const taskElement = document.querySelector(`#task-${taskId}`);
+    if (taskElement) {
+      const taskItem = taskElement.closest('.task-item');
+      if (task.completed) {
+        taskItem.classList.add('bounce-in');
+        setTimeout(() => taskItem.classList.remove('bounce-in'), 600);
+      }
+    }
+    
     if (appState.currentTab === 'tasks') renderTasks();
     updateDashboard();
-    showNotification(task.completed ? 'Task completed! 🎉' : 'Task reopened', 'success');
+    
+    if (task.completed) {
+      showNotification('Task completed! Great job! 🎉', 'success');
+      // Confetti effect simulation
+      setTimeout(() => {
+        showNotification('🎊 Keep up the momentum!', 'info');
+      }, 1500);
+    } else {
+      showNotification('Task reopened 🔄', 'info');
+    }
   }
 }
 
@@ -390,18 +439,35 @@ function addGoal(title, category, target) {
     return false;
   }
   
-  const newGoal = {
-    id: appState.goalIdCounter++,
-    title,
-    progress: 0,
-    target: parseInt(target),
-    category
-  };
+  // Add loading state
+  const addButton = document.querySelector('#addGoalModal .btn--primary');
+  if (addButton) {
+    addButton.innerHTML = '<div class="spinner"></div> Creating...';
+    addButton.disabled = true;
+  }
   
-  appState.goals.push(newGoal);
-  if (appState.currentTab === 'goals') renderGoals();
-  updateDashboard();
-  showNotification('Goal added successfully! 🎯', 'success');
+  setTimeout(() => {
+    const newGoal = {
+      id: appState.goalIdCounter++,
+      title,
+      progress: 0,
+      target: parseInt(target),
+      category
+    };
+    
+    appState.goals.push(newGoal);
+    if (appState.currentTab === 'goals') renderGoals();
+    updateDashboard();
+    
+    // Reset button
+    if (addButton) {
+      addButton.innerHTML = 'Add Goal';
+      addButton.disabled = false;
+    }
+    
+    showNotification('Goal created! Time to make it happen! 🎯', 'success');
+  }, 600);
+  
   return true;
 }
 
@@ -466,15 +532,28 @@ function renderHabits() {
 }
 
 function toggleHabitDay(habitId, day) {
-  showNotification('Habit tracking updated! 🔥', 'success');
   const habitDay = document.querySelector(`[data-habit-id="${habitId}"][data-day="${day}"]`);
   if (habitDay) {
     if (habitDay.classList.contains('completed')) {
       habitDay.classList.remove('completed');
       habitDay.textContent = '';
+      showNotification('Habit unchecked. Tomorrow is a new opportunity! 💪', 'info');
     } else {
       habitDay.classList.add('completed');
       habitDay.textContent = '✓';
+      habitDay.classList.add('bounce-in');
+      setTimeout(() => habitDay.classList.remove('bounce-in'), 600);
+      
+      // Motivational messages
+      const messages = [
+        'Habit completed! Building consistency! 🔥',
+        'Great job! Your streak is growing! ⚡',
+        'Consistency is key! Keep it up! 💪',
+        'Another day, another win! 🎯',
+        'You\'re building momentum! 🚀'
+      ];
+      const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+      showNotification(randomMessage, 'success');
     }
   }
 }
@@ -643,7 +722,15 @@ function showUpgradeModal() {
   if (modal) {
     modal.style.display = 'flex';
     document.body.style.overflow = 'hidden';
-    showNotification('Choose your upgrade plan! 👑', 'info');
+    
+    // Add premium entrance effect
+    const modalContent = modal.querySelector('.modal-content');
+    if (modalContent) {
+      modalContent.classList.add('bounce-in');
+      setTimeout(() => modalContent.classList.remove('bounce-in'), 600);
+    }
+    
+    showNotification('✨ Unlock your full potential! Choose your plan! 👑', 'info');
   }
 }
 
@@ -656,7 +743,21 @@ function hideUpgradeModal() {
 }
 
 function upgradeToPlan(planName) {
-  showNotification(`Upgrade to ${planName} selected! In a real app, this would redirect to payment processing. 💳`, 'success');
+  // Enhanced upgrade flow
+  const upgradeButton = event.target;
+  upgradeButton.innerHTML = '<div class="spinner"></div> Processing...';
+  upgradeButton.disabled = true;
+  
+  setTimeout(() => {
+    showNotification(`🎉 ${planName} selected! Redirecting to secure checkout...`, 'success');
+    
+    setTimeout(() => {
+      showNotification('💳 In a real app, this would process payment securely', 'info');
+      upgradeButton.innerHTML = `Choose ${planName.split(' - ')[0]}`;
+      upgradeButton.disabled = false;
+    }, 2000);
+  }, 1500);
+  
   hideUpgradeModal();
 }
 
@@ -898,19 +999,48 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Welcome message
     setTimeout(() => {
-      showNotification('👋 Welcome to PlannerPro! Try the demo features and see upgrade prompts in action!', 'info');
+      showNotification('🚀 Welcome to PlannerPro! Your productivity journey starts here!', 'success');
+      
+      setTimeout(() => {
+        showNotification('💡 Try adding tasks, goals, and see our freemium features in action!', 'info');
+      }, 3000);
     }, 1000);
     
-    // Demo engagement tracking
+    // Enhanced engagement tracking
     let interactionCount = 0;
+    let taskCompletions = 0;
+    
     document.addEventListener('click', () => {
       interactionCount++;
       
-      if (interactionCount === 8) {
-        showNotification('🚀 You\'re really engaged! Ready to unlock all features?', 'info');
+      if (interactionCount === 5) {
+        showNotification('🎯 You\'re exploring well! Loving the experience?', 'info');
+      } else if (interactionCount === 10) {
+        showNotification('🚀 You\'re really engaged! Ready to unlock unlimited features?', 'info');
         setTimeout(() => showUpgradeModal(), 2000);
+      } else if (interactionCount === 20) {
+        showNotification('🏆 Power user detected! You\'d love our Pro features!', 'info');
       }
     });
+    
+    // Track task completions for targeted messaging
+    document.addEventListener('change', (e) => {
+      if (e.target.type === 'checkbox' && e.target.checked) {
+        taskCompletions++;
+        if (taskCompletions === 3) {
+          setTimeout(() => {
+            showNotification('🎉 You\'re productive! Imagine with unlimited tasks...', 'info');
+          }, 1000);
+        }
+      }
+    });
+    
+    // Periodic engagement prompts
+    setTimeout(() => {
+      if (interactionCount < 5) {
+        showNotification('💪 Try completing a task or updating a goal progress!', 'info');
+      }
+    }, 30000); // After 30 seconds
     
     console.log('✅ PlannerPro initialized successfully!');
     
