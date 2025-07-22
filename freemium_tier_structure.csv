@@ -1,0 +1,5 @@
+Tier,Price,Features,Target_Users,Conversion_Rate
+Free,$0,"3 templates, Basic editing, Watermark",Trial users,N/A
+Basic,$9,"10 templates, Custom colors, No watermark",Individual users,15-20%
+Pro,$19,"50 templates, Team sharing, Analytics",Small teams,8-12%
+Premium,$39,"Unlimited, White-label, API access",Businesses,3-5%

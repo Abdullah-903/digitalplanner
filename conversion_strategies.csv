@@ -1,0 +1,9 @@
+Strategy,Implementation,Conversion_Impact,Difficulty_To_Implement
+Strategic Feature Limiting,Limit templates to 3 on free tier,High,Easy
+Watermark Inclusion,Add branded watermark to exports,Medium,Easy
+Usage Limits,Max 5 goals per month for free users,High,Medium
+Social Proof Display,Show testimonials and user count,Medium,Easy
+Time-Limited Offers,Weekend-only upgrade discounts,High,Medium
+Progressive Onboarding,Guide users through features gradually,Low,Hard
+Value Demonstration,Show what they're missing with tooltips,Medium,Medium
+Seamless Upgrade Path,One-click upgrade buttons,High,Easy
