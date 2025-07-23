@@ -127,6 +127,123 @@
                     </div>
                 </div>
 
+                <div class="dashboard-card weekly-goals">
+                    <div class="card-header">
+                        <h3>Weekly Goals</h3>
+                        <div class="week-navigation">
+                            <button class="btn btn--outline btn--xs prev-week-btn" title="Previous Week">‹</button>
+                            <span class="current-week-display">Jul 21-27</span>
+                            <button class="btn btn--outline btn--xs next-week-btn" title="Next Week">›</button>
+                        </div>
+                    </div>
+                    <div class="weekly-goals-content">
+                        <div class="week-progress-ring">
+                            <svg class="progress-ring" width="80" height="80">
+                                <circle class="progress-ring-background" cx="40" cy="40" r="32" stroke="#2a2a2a" stroke-width="6" fill="transparent"/>
+                                <circle class="progress-ring-progress" cx="40" cy="40" r="32" stroke="url(#weeklyGradient)" stroke-width="6" fill="transparent" stroke-dasharray="201.06" stroke-dashoffset="60.32" stroke-linecap="round"/>
+                                <defs>
+                                    <linearGradient id="weeklyGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#1FB8CD"/>
+                                        <stop offset="100%" style="stop-color:#9333EA"/>
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                            <div class="progress-ring-text">
+                                <span class="progress-percentage">70%</span>
+                                <span class="progress-label">Complete</span>
+                            </div>
+                        </div>
+                        <div class="weekly-goals-list">
+                            <div class="weekly-goal-item completed">
+                                <div class="goal-checkbox">
+                                    <svg class="checkmark" viewBox="0 0 24 24">
+                                        <path d="M9 12l2 2 4-4"/>
+                                    </svg>
+                                </div>
+                                <div class="goal-content">
+                                    <span class="goal-title">Complete 3 workouts</span>
+                                    <div class="goal-progress-mini">
+                                        <div class="progress-dots">
+                                            <span class="dot completed"></span>
+                                            <span class="dot completed"></span>
+                                            <span class="dot completed"></span>
+                                        </div>
+                                        <span class="goal-count">3/3</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="weekly-goal-item in-progress">
+                                <div class="goal-checkbox">
+                                    <div class="progress-indicator"></div>
+                                </div>
+                                <div class="goal-content">
+                                    <span class="goal-title">Read 2 chapters</span>
+                                    <div class="goal-progress-mini">
+                                        <div class="progress-dots">
+                                            <span class="dot completed"></span>
+                                            <span class="dot pending"></span>
+                                        </div>
+                                        <span class="goal-count">1/2</span>
+                            </div>
+                            <div class="weekly-goal-item in-progress">
+                                <div class="goal-checkbox">
+                                    <div class="progress-indicator"></div>
+                                </div>
+                                <div class="goal-content">
+                                    <span class="goal-title">Read 2 chapters</span>
+                                    <div class="goal-progress-mini">
+                                        <div class="progress-dots">
+                                            <span class="dot completed"></span>
+                                            <span class="dot pending"></span>
+                                        </div>
+                                        <span class="goal-count">1/2</span>
+                                    </div>
+                                </div>
+                                <div class="goal-category learning">📚</div>
+                            </div>
+                            <div class="weekly-goal-item pending">
+                                <div class="goal-checkbox">
+                                    <div class="empty-indicator"></div>
+                                </div>
+                                <div class="goal-content">
+                                    <span class="goal-title">Call 5 clients</span>
+                                    <div class="goal-progress-mini">
+                                        <div class="progress-dots">
+                                            <span class="dot pending"></span>
+                                            <span class="dot pending"></span>
+                                            <span class="dot pending"></span>
+                                            <span class="dot pending"></span>
+                                            <span class="dot pending"></span>
+                                        </div>
+                                        <span class="goal-count">0/5</span>
+                                    </div>
+                                </div>
+                                <div class="goal-category work">💼</div>
+                            </div>
+                            <div class="weekly-goal-item completed">
+                                <div class="goal-checkbox">
+                                    <svg class="checkmark" viewBox="0 0 24 24">
+                                        <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2" fill="none"/>
+                                    </svg>
+                                </div>
+                                <div class="goal-content">
+                                    <span class="goal-title">Meal prep Sunday</span>
+                                    <div class="goal-progress-mini">
+                                        <div class="progress-dots">
+                                            <span class="dot completed"></span>
+                                        </div>
+                                        <span class="goal-count">1/1</span>
+                                    </div>
+                                </div>
+                                <div class="goal-category health">🥗</div>
+                            </div>
+                        </div>
+                        <button class="add-weekly-goal-btn">
+                            <span class="plus-icon">+</span>
+                            <span>Add Weekly Goal</span>
+                        </button>
+                    </div>
+                </div>
                 <div class="dashboard-card habit-streak">
                     <div class="card-header">
                         <h3>Habit Tracker</h3>
