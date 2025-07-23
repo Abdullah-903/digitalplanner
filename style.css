@@ -1,2736 +1,664 @@
-:root {
-  /* Primitive Color Tokens */
-  --color-white: rgba(255, 255, 255, 1);
-  --color-black: rgba(0, 0, 0, 1);
-  --color-cream-50: rgba(252, 252, 249, 1);
-  --color-cream-100: rgba(255, 255, 253, 1);
-  --color-gray-200: rgba(245, 245, 245, 1);
-  --color-gray-300: rgba(167, 169, 169, 1);
-  --color-gray-400: rgba(119, 124, 124, 1);
-  --color-slate-500: rgba(98, 108, 113, 1);
-  --color-brown-600: rgba(94, 82, 64, 1);
-  --color-charcoal-700: rgba(31, 33, 33, 1);
-  --color-charcoal-800: rgba(38, 40, 40, 1);
-  --color-slate-900: rgba(19, 52, 59, 1);
-  --color-teal-300: rgba(50, 184, 198, 1);
-  --color-teal-400: rgba(45, 166, 178, 1);
-  --color-teal-500: rgba(33, 128, 141, 1);
-  --color-teal-600: rgba(29, 116, 128, 1);
-  --color-teal-700: rgba(26, 104, 115, 1);
-  --color-teal-800: rgba(41, 150, 161, 1);
-  --color-red-400: rgba(255, 84, 89, 1);
-  --color-red-500: rgba(192, 21, 47, 1);
-  --color-orange-400: rgba(230, 129, 97, 1);
-  --color-orange-500: rgba(168, 75, 47, 1);
-
-  /* RGB versions for opacity control */
-  --color-brown-600-rgb: 94, 82, 64;
-  --color-teal-500-rgb: 33, 128, 141;
-  --color-slate-900-rgb: 19, 52, 59;
-  --color-slate-500-rgb: 98, 108, 113;
-  --color-red-500-rgb: 192, 21, 47;
-  --color-red-400-rgb: 255, 84, 89;
-  --color-orange-500-rgb: 168, 75, 47;
-  --color-orange-400-rgb: 230, 129, 97;
-
-  /* Background color tokens (Light Mode) */
-  --color-bg-1: rgba(59, 130, 246, 0.08); /* Light blue */
-  --color-bg-2: rgba(245, 158, 11, 0.08); /* Light yellow */
-  --color-bg-3: rgba(34, 197, 94, 0.08); /* Light green */
-  --color-bg-4: rgba(239, 68, 68, 0.08); /* Light red */
-  --color-bg-5: rgba(147, 51, 234, 0.08); /* Light purple */
-  --color-bg-6: rgba(249, 115, 22, 0.08); /* Light orange */
-  --color-bg-7: rgba(236, 72, 153, 0.08); /* Light pink */
-  --color-bg-8: rgba(6, 182, 212, 0.08); /* Light cyan */
-
-  /* Semantic Color Tokens (Light Mode) */
-  --color-background: var(--color-cream-50);
-  --color-surface: var(--color-cream-100);
-  --color-text: var(--color-slate-900);
-  --color-text-secondary: var(--color-slate-500);
-  --color-primary: var(--color-teal-500);
-  --color-primary-hover: var(--color-teal-600);
-  --color-primary-active: var(--color-teal-700);
-  --color-secondary: rgba(var(--color-brown-600-rgb), 0.12);
-  --color-secondary-hover: rgba(var(--color-brown-600-rgb), 0.2);
-  --color-secondary-active: rgba(var(--color-brown-600-rgb), 0.25);
-  --color-border: rgba(var(--color-brown-600-rgb), 0.2);
-  --color-btn-primary-text: var(--color-cream-50);
-  --color-card-border: rgba(var(--color-brown-600-rgb), 0.12);
-  --color-card-border-inner: rgba(var(--color-brown-600-rgb), 0.12);
-  --color-error: var(--color-red-500);
-  --color-success: var(--color-teal-500);
-  --color-warning: var(--color-orange-500);
-  --color-info: var(--color-slate-500);
-  --color-focus-ring: rgba(var(--color-teal-500-rgb), 0.4);
-  --color-select-caret: rgba(var(--color-slate-900-rgb), 0.8);
-
-  /* Common style patterns */
-  --focus-ring: 0 0 0 3px var(--color-focus-ring);
-  --focus-outline: 2px solid var(--color-primary);
-  --status-bg-opacity: 0.15;
-  --status-border-opacity: 0.25;
-  --select-caret-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23134252' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-  --select-caret-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23f5f5f5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-
-  /* RGB versions for opacity control */
-  --color-success-rgb: 33, 128, 141;
-  --color-error-rgb: 192, 21, 47;
-  --color-warning-rgb: 168, 75, 47;
-  --color-info-rgb: 98, 108, 113;
-
-  /* Typography */
-  --font-family-base: "FKGroteskNeue", "Geist", "Inter", -apple-system,
-    BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-family-mono: "Berkeley Mono", ui-monospace, SFMono-Regular, Menlo,
-    Monaco, Consolas, monospace;
-  --font-size-xs: 11px;
-  --font-size-sm: 12px;
-  --font-size-base: 14px;
-  --font-size-md: 14px;
-  --font-size-lg: 16px;
-  --font-size-xl: 18px;
-  --font-size-2xl: 20px;
-  --font-size-3xl: 24px;
-  --font-size-4xl: 30px;
-  --font-weight-normal: 400;
-  --font-weight-medium: 500;
-  --font-weight-semibold: 550;
-  --font-weight-bold: 600;
-  --line-height-tight: 1.2;
-  --line-height-normal: 1.5;
-  --letter-spacing-tight: -0.01em;
-
-  /* Spacing */
-  --space-0: 0;
-  --space-1: 1px;
-  --space-2: 2px;
-  --space-4: 4px;
-  --space-6: 6px;
-  --space-8: 8px;
-  --space-10: 10px;
-  --space-12: 12px;
-  --space-16: 16px;
-  --space-20: 20px;
-  --space-24: 24px;
-  --space-32: 32px;
-
-  /* Border Radius */
-  --radius-sm: 6px;
-  --radius-base: 8px;
-  --radius-md: 10px;
-  --radius-lg: 12px;
-  --radius-full: 9999px;
-
-  /* Shadows */
-  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.02);
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.04),
-    0 2px 4px -1px rgba(0, 0, 0, 0.02);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.04),
-    0 4px 6px -2px rgba(0, 0, 0, 0.02);
-  --shadow-inset-sm: inset 0 1px 0 rgba(255, 255, 255, 0.15),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.03);
-
-  /* Animation */
-  --duration-fast: 150ms;
-  --duration-normal: 250ms;
-  --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
-
-  /* Layout */
-  --container-sm: 640px;
-  --container-md: 768px;
-  --container-lg: 1024px;
-  --container-xl: 1280px;
-}
-
-/* Dark mode colors */
-@media (prefers-color-scheme: dark) {
-  :root {
-    /* RGB versions for opacity control (Dark Mode) */
-    --color-gray-400-rgb: 119, 124, 124;
-    --color-teal-300-rgb: 50, 184, 198;
-    --color-gray-300-rgb: 167, 169, 169;
-    --color-gray-200-rgb: 245, 245, 245;
-
-    /* Background color tokens (Dark Mode) */
-    --color-bg-1: rgba(29, 78, 216, 0.15); /* Dark blue */
-    --color-bg-2: rgba(180, 83, 9, 0.15); /* Dark yellow */
-    --color-bg-3: rgba(21, 128, 61, 0.15); /* Dark green */
-    --color-bg-4: rgba(185, 28, 28, 0.15); /* Dark red */
-    --color-bg-5: rgba(107, 33, 168, 0.15); /* Dark purple */
-    --color-bg-6: rgba(194, 65, 12, 0.15); /* Dark orange */
-    --color-bg-7: rgba(190, 24, 93, 0.15); /* Dark pink */
-    --color-bg-8: rgba(8, 145, 178, 0.15); /* Dark cyan */
-    
-    /* Semantic Color Tokens (Dark Mode) */
-    --color-background: var(--color-charcoal-700);
-    --color-surface: var(--color-charcoal-800);
-    --color-text: var(--color-gray-200);
-    --color-text-secondary: rgba(var(--color-gray-300-rgb), 0.7);
-    --color-primary: var(--color-teal-300);
-    --color-primary-hover: var(--color-teal-400);
-    --color-primary-active: var(--color-teal-800);
-    --color-secondary: rgba(var(--color-gray-400-rgb), 0.15);
-    --color-secondary-hover: rgba(var(--color-gray-400-rgb), 0.25);
-    --color-secondary-active: rgba(var(--color-gray-400-rgb), 0.3);
-    --color-border: rgba(var(--color-gray-400-rgb), 0.3);
-    --color-error: var(--color-red-400);
-    --color-success: var(--color-teal-300);
-    --color-warning: var(--color-orange-400);
-    --color-info: var(--color-gray-300);
-    --color-focus-ring: rgba(var(--color-teal-300-rgb), 0.4);
-    --color-btn-primary-text: var(--color-slate-900);
-    --color-card-border: rgba(var(--color-gray-400-rgb), 0.2);
-    --color-card-border-inner: rgba(var(--color-gray-400-rgb), 0.15);
-    --shadow-inset-sm: inset 0 1px 0 rgba(255, 255, 255, 0.1),
-      inset 0 -1px 0 rgba(0, 0, 0, 0.15);
-    --button-border-secondary: rgba(var(--color-gray-400-rgb), 0.2);
-    --color-border-secondary: rgba(var(--color-gray-400-rgb), 0.2);
-    --color-select-caret: rgba(var(--color-gray-200-rgb), 0.8);
-
-    /* Common style patterns - updated for dark mode */
-    --focus-ring: 0 0 0 3px var(--color-focus-ring);
-    --focus-outline: 2px solid var(--color-primary);
-    --status-bg-opacity: 0.15;
-    --status-border-opacity: 0.25;
-    --select-caret-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23134252' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-    --select-caret-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23f5f5f5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-
-    /* RGB versions for dark mode */
-    --color-success-rgb: var(--color-teal-300-rgb);
-    --color-error-rgb: var(--color-red-400-rgb);
-    --color-warning-rgb: var(--color-orange-400-rgb);
-    --color-info-rgb: var(--color-gray-300-rgb);
-  }
-}
-
-/* Data attribute for manual theme switching */
-[data-color-scheme="dark"] {
-  /* RGB versions for opacity control (dark mode) */
-  --color-gray-400-rgb: 119, 124, 124;
-  --color-teal-300-rgb: 50, 184, 198;
-  --color-gray-300-rgb: 167, 169, 169;
-  --color-gray-200-rgb: 245, 245, 245;
-
-  /* Colorful background palette - Dark Mode */
-  --color-bg-1: rgba(29, 78, 216, 0.15); /* Dark blue */
-  --color-bg-2: rgba(180, 83, 9, 0.15); /* Dark yellow */
-  --color-bg-3: rgba(21, 128, 61, 0.15); /* Dark green */
-  --color-bg-4: rgba(185, 28, 28, 0.15); /* Dark red */
-  --color-bg-5: rgba(107, 33, 168, 0.15); /* Dark purple */
-  --color-bg-6: rgba(194, 65, 12, 0.15); /* Dark orange */
-  --color-bg-7: rgba(190, 24, 93, 0.15); /* Dark pink */
-  --color-bg-8: rgba(8, 145, 178, 0.15); /* Dark cyan */
-  
-  /* Semantic Color Tokens (Dark Mode) */
-  --color-background: var(--color-charcoal-700);
-  --color-surface: var(--color-charcoal-800);
-  --color-text: var(--color-gray-200);
-  --color-text-secondary: rgba(var(--color-gray-300-rgb), 0.7);
-  --color-primary: var(--color-teal-300);
-  --color-primary-hover: var(--color-teal-400);
-  --color-primary-active: var(--color-teal-800);
-  --color-secondary: rgba(var(--color-gray-400-rgb), 0.15);
-  --color-secondary-hover: rgba(var(--color-gray-400-rgb), 0.25);
-  --color-secondary-active: rgba(var(--color-gray-400-rgb), 0.3);
-  --color-border: rgba(var(--color-gray-400-rgb), 0.3);
-  --color-error: var(--color-red-400);
-  --color-success: var(--color-teal-300);
-  --color-warning: var(--color-orange-400);
-  --color-info: var(--color-gray-300);
-  --color-focus-ring: rgba(var(--color-teal-300-rgb), 0.4);
-  --color-btn-primary-text: var(--color-slate-900);
-  --color-card-border: rgba(var(--color-gray-400-rgb), 0.15);
-  --color-card-border-inner: rgba(var(--color-gray-400-rgb), 0.15);
-  --shadow-inset-sm: inset 0 1px 0 rgba(255, 255, 255, 0.1),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.15);
-  --color-border-secondary: rgba(var(--color-gray-400-rgb), 0.2);
-  --color-select-caret: rgba(var(--color-gray-200-rgb), 0.8);
-
-  /* Common style patterns - updated for dark mode */
-  --focus-ring: 0 0 0 3px var(--color-focus-ring);
-  --focus-outline: 2px solid var(--color-primary);
-  --status-bg-opacity: 0.15;
-  --status-border-opacity: 0.25;
-  --select-caret-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23134252' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-  --select-caret-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23f5f5f5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-
-  /* RGB versions for dark mode */
-  --color-success-rgb: var(--color-teal-300-rgb);
-  --color-error-rgb: var(--color-red-400-rgb);
-  --color-warning-rgb: var(--color-orange-400-rgb);
-  --color-info-rgb: var(--color-gray-300-rgb);
-}
-
-[data-color-scheme="light"] {
-  /* RGB versions for opacity control (light mode) */
-  --color-brown-600-rgb: 94, 82, 64;
-  --color-teal-500-rgb: 33, 128, 141;
-  --color-slate-900-rgb: 19, 52, 59;
-  
-  /* Semantic Color Tokens (Light Mode) */
-  --color-background: var(--color-cream-50);
-  --color-surface: var(--color-cream-100);
-  --color-text: var(--color-slate-900);
-  --color-text-secondary: var(--color-slate-500);
-  --color-primary: var(--color-teal-500);
-  --color-primary-hover: var(--color-teal-600);
-  --color-primary-active: var(--color-teal-700);
-  --color-secondary: rgba(var(--color-brown-600-rgb), 0.12);
-  --color-secondary-hover: rgba(var(--color-brown-600-rgb), 0.2);
-  --color-secondary-active: rgba(var(--color-brown-600-rgb), 0.25);
-  --color-border: rgba(var(--color-brown-600-rgb), 0.2);
-  --color-btn-primary-text: var(--color-cream-50);
-  --color-card-border: rgba(var(--color-brown-600-rgb), 0.12);
-  --color-card-border-inner: rgba(var(--color-brown-600-rgb), 0.12);
-  --color-error: var(--color-red-500);
-  --color-success: var(--color-teal-500);
-  --color-warning: var(--color-orange-500);
-  --color-info: var(--color-slate-500);
-  --color-focus-ring: rgba(var(--color-teal-500-rgb), 0.4);
-
-  /* RGB versions for light mode */
-  --color-success-rgb: var(--color-teal-500-rgb);
-  --color-error-rgb: var(--color-red-500-rgb);
-  --color-warning-rgb: var(--color-orange-500-rgb);
-  --color-info-rgb: var(--color-slate-500-rgb);
-}
-
-/* Base styles */
-html {
-  font-size: var(--font-size-base);
-  font-family: var(--font-family-base);
-  line-height: var(--line-height-normal);
-  color: var(--color-text);
-  background-color: var(--color-background);
-  -webkit-font-smoothing: antialiased;
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  padding: 0;
-}
-
-*,
-*::before,
-*::after {
-  box-sizing: inherit;
-}
-
-/* Typography */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  margin: 0;
-  font-weight: var(--font-weight-semibold);
-  line-height: var(--line-height-tight);
-  color: var(--color-text);
-  letter-spacing: var(--letter-spacing-tight);
-}
-
-h1 {
-  font-size: var(--font-size-4xl);
-}
-h2 {
-  font-size: var(--font-size-3xl);
-}
-h3 {
-  font-size: var(--font-size-2xl);
-}
-h4 {
-  font-size: var(--font-size-xl);
-}
-h5 {
-  font-size: var(--font-size-lg);
-}
-h6 {
-  font-size: var(--font-size-md);
-}
-
-p {
-  margin: 0 0 var(--space-16) 0;
-}
-
-a {
-  color: var(--color-primary);
-  text-decoration: none;
-  transition: color var(--duration-fast) var(--ease-standard);
-}
-
-a:hover {
-  color: var(--color-primary-hover);
-}
-
-code,
-pre {
-  font-family: var(--font-family-mono);
-  font-size: calc(var(--font-size-base) * 0.95);
-  background-color: var(--color-secondary);
-  border-radius: var(--radius-sm);
-}
-
-code {
-  padding: var(--space-1) var(--space-4);
-}
-
-pre {
-  padding: var(--space-16);
-  margin: var(--space-16) 0;
-  overflow: auto;
-  border: 1px solid var(--color-border);
-}
-
-pre code {
-  background: none;
-  padding: 0;
-}
-
-/* Buttons */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--space-8) var(--space-16);
-  border-radius: var(--radius-base);
-  font-size: var(--font-size-base);
-  font-weight: 500;
-  line-height: 1.5;
-  cursor: pointer;
-  transition: all var(--duration-normal) var(--ease-standard);
-  border: none;
-  text-decoration: none;
-  position: relative;
-}
-
-.btn:focus-visible {
-  outline: none;
-  box-shadow: var(--focus-ring);
-}
-
-.btn--primary {
-  background: var(--color-primary);
-  color: var(--color-btn-primary-text);
-}
-
-.btn--primary:hover {
-  background: var(--color-primary-hover);
-}
-
-.btn--primary:active {
-  background: var(--color-primary-active);
-}
-
-.btn--secondary {
-  background: var(--color-secondary);
-  color: var(--color-text);
-}
-
-.btn--secondary:hover {
-  background: var(--color-secondary-hover);
-}
-
-.btn--secondary:active {
-  background: var(--color-secondary-active);
-}
-
-.btn--outline {
-  background: transparent;
-  border: 1px solid var(--color-border);
-  color: var(--color-text);
-}
-
-.btn--outline:hover {
-  background: var(--color-secondary);
-}
-
-.btn--sm {
-  padding: var(--space-4) var(--space-12);
-  font-size: var(--font-size-sm);
-  border-radius: var(--radius-sm);
-}
-
-.btn--lg {
-  padding: var(--space-10) var(--space-20);
-  font-size: var(--font-size-lg);
-  border-radius: var(--radius-md);
-}
-
-.btn--full-width {
-  width: 100%;
-}
-
-.btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-/* Form elements */
-.form-control {
-  display: block;
-  width: 100%;
-  padding: var(--space-8) var(--space-12);
-  font-size: var(--font-size-md);
-  line-height: 1.5;
-  color: var(--color-text);
-  background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-base);
-  transition: border-color var(--duration-fast) var(--ease-standard),
-    box-shadow var(--duration-fast) var(--ease-standard);
-}
-
-textarea.form-control {
-  font-family: var(--font-family-base);
-  font-size: var(--font-size-base);
-}
-
-select.form-control {
-  padding: var(--space-8) var(--space-12);
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-image: var(--select-caret-light);
-  background-repeat: no-repeat;
-  background-position: right var(--space-12) center;
-  background-size: 16px;
-  padding-right: var(--space-32);
-}
-
-/* Add a dark mode specific caret */
-@media (prefers-color-scheme: dark) {
-  select.form-control {
-    background-image: var(--select-caret-dark);
-  }
-}
-
-/* Also handle data-color-scheme */
-[data-color-scheme="dark"] select.form-control {
-  background-image: var(--select-caret-dark);
-}
-
-[data-color-scheme="light"] select.form-control {
-  background-image: var(--select-caret-light);
-}
-
-.form-control:focus {
-  border-color: var(--color-primary);
-  outline: var(--focus-outline);
-}
-
-.form-label {
-  display: block;
-  margin-bottom: var(--space-8);
-  font-weight: var(--font-weight-medium);
-  font-size: var(--font-size-sm);
-}
-
-.form-group {
-  margin-bottom: var(--space-16);
-}
-
-/* Card component */
-.card {
-  background-color: var(--color-surface);
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--color-card-border);
-  box-shadow: var(--shadow-sm);
-  overflow: hidden;
-  transition: box-shadow var(--duration-normal) var(--ease-standard);
-}
-
-.card:hover {
-  box-shadow: var(--shadow-md);
-}
-
-.card__body {
-  padding: var(--space-16);
-}
-
-.card__header,
-.card__footer {
-  padding: var(--space-16);
-  border-bottom: 1px solid var(--color-card-border-inner);
-}
-
-/* Status indicators - simplified with CSS variables */
-.status {
-  display: inline-flex;
-  align-items: center;
-  padding: var(--space-6) var(--space-12);
-  border-radius: var(--radius-full);
-  font-weight: var(--font-weight-medium);
-  font-size: var(--font-size-sm);
-}
-
-.status--success {
-  background-color: rgba(
-    var(--color-success-rgb, 33, 128, 141),
-    var(--status-bg-opacity)
-  );
-  color: var(--color-success);
-  border: 1px solid
-    rgba(var(--color-success-rgb, 33, 128, 141), var(--status-border-opacity));
-}
-
-.status--error {
-  background-color: rgba(
-    var(--color-error-rgb, 192, 21, 47),
-    var(--status-bg-opacity)
-  );
-  color: var(--color-error);
-  border: 1px solid
-    rgba(var(--color-error-rgb, 192, 21, 47), var(--status-border-opacity));
-}
-
-.status--warning {
-  background-color: rgba(
-    var(--color-warning-rgb, 168, 75, 47),
-    var(--status-bg-opacity)
-  );
-  color: var(--color-warning);
-  border: 1px solid
-    rgba(var(--color-warning-rgb, 168, 75, 47), var(--status-border-opacity));
-}
-
-.status--info {
-  background-color: rgba(
-    var(--color-info-rgb, 98, 108, 113),
-    var(--status-bg-opacity)
-  );
-  color: var(--color-info);
-  border: 1px solid
-    rgba(var(--color-info-rgb, 98, 108, 113), var(--status-border-opacity));
-}
-
-/* Container layout */
-.container {
-  width: 100%;
-  margin-right: auto;
-  margin-left: auto;
-  padding-right: var(--space-16);
-  padding-left: var(--space-16);
-}
-
-@media (min-width: 640px) {
-  .container {
-    max-width: var(--container-sm);
-  }
-}
-@media (min-width: 768px) {
-  .container {
-    max-width: var(--container-md);
-  }
-}
-@media (min-width: 1024px) {
-  .container {
-    max-width: var(--container-lg);
-  }
-}
-@media (min-width: 1280px) {
-  .container {
-    max-width: var(--container-xl);
-  }
-}
-
-/* Utility classes */
-.flex {
-  display: flex;
-}
-.flex-col {
-  flex-direction: column;
-}
-.items-center {
-  align-items: center;
-}
-.justify-center {
-  justify-content: center;
-}
-.justify-between {
-  justify-content: space-between;
-}
-.gap-4 {
-  gap: var(--space-4);
-}
-.gap-8 {
-  gap: var(--space-8);
-}
-.gap-16 {
-  gap: var(--space-16);
-}
-
-.m-0 {
-  margin: 0;
-}
-.mt-8 {
-  margin-top: var(--space-8);
-}
-.mb-8 {
-  margin-bottom: var(--space-8);
-}
-.mx-8 {
-  margin-left: var(--space-8);
-  margin-right: var(--space-8);
-}
-.my-8 {
-  margin-top: var(--space-8);
-  margin-bottom: var(--space-8);
-}
-
-.p-0 {
-  padding: 0;
-}
-.py-8 {
-  padding-top: var(--space-8);
-  padding-bottom: var(--space-8);
-}
-.px-8 {
-  padding-left: var(--space-8);
-  padding-right: var(--space-8);
-}
-.py-16 {
-  padding-top: var(--space-16);
-  padding-bottom: var(--space-16);
-}
-.px-16 {
-  padding-left: var(--space-16);
-  padding-right: var(--space-16);
-}
-
-.block {
-  display: block;
-}
-.hidden {
-  display: none;
-}
-
-/* Accessibility */
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
-}
-
-:focus-visible {
-  outline: var(--focus-outline);
-  outline-offset: 2px;
-}
-
-/* Dark mode specifics */
-[data-color-scheme="dark"] .btn--outline {
-  border: 1px solid var(--color-border-secondary);
-}
-
-@font-face {
-  font-family: 'FKGroteskNeue';
-  src: url('https://r2cdn.perplexity.ai/fonts/FKGroteskNeue.woff2')
-    format('woff2');
-}
-
-/* END PERPLEXITY DESIGN SYSTEM */
-/* PlannerPro Digital Productivity Planner Styles */
-
-/* Navigation */
-.navbar {
-  background: var(--color-surface);
-  border-bottom: 1px solid var(--color-border);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  box-shadow: var(--shadow-sm);
-}
-
-.nav-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--space-12) 0;
-}
-
-/* Logo Styles */
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: var(--font-size-xl);
-  font-weight: 700;
-  color: var(--color-primary);
-  text-decoration: none;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.logo-icon {
-  width: 32px;
-  height: 32px;
-  background: linear-gradient(135deg, var(--color-primary), #0ea5e9);
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 8px rgba(31, 184, 205, 0.3);
-  transition: all 0.3s ease;
-}
-
-.logo-icon svg {
-  width: 20px;
-  height: 20px;
-  fill: white;
-}
-
-.logo-text {
-  background: linear-gradient(135deg, var(--color-primary), #0ea5e9);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  font-weight: 800;
-  letter-spacing: -0.5px;
-}
-
-.logo:hover {
-  transform: translateY(-1px);
-}
-
-.logo:hover .logo-icon {
-  transform: rotate(5deg) scale(1.1);
-  box-shadow: 0 4px 16px rgba(31, 184, 205, 0.4);
-}
-
-.logo:hover .logo-text {
-  background: linear-gradient(135deg, #0ea5e9, var(--color-primary));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.nav-tabs {
-  display: flex;
-  gap: var(--space-4);
-}
-
-.nav-tab {
-  padding: var(--space-8) var(--space-16);
-  border: none;
-  background: transparent;
-  color: var(--color-text-secondary);
-  font-size: var(--font-size-sm);
-  border-radius: var(--radius-base);
-  cursor: pointer;
-  transition: all var(--duration-fast) var(--ease-standard);
-}
-
-.nav-tab:hover {
-  background: var(--color-secondary);
-  color: var(--color-text);
-}
-
-.nav-tab.active {
-  background: var(--color-primary);
-  color: var(--color-btn-primary-text);
-}
-
-.nav-tab.premium-tab {
-  background: linear-gradient(135deg, var(--color-bg-5), var(--color-bg-7));
-  color: var(--color-text);
-  font-weight: var(--font-weight-semibold);
-  position: relative;
-}
-
-.nav-tab.premium-tab:before {
-  content: '👑';
-  margin-right: var(--space-4);
-}
-
-.nav-actions {
-  display: flex;
-  align-items: center;
-  gap: var(--space-12);
-}
-
-.tier-indicator {
-  display: flex;
-  align-items: center;
-  gap: var(--space-8);
-}
-
-.current-tier {
-  font-size: var(--font-size-xs);
-  color: var(--color-text-secondary);
-  padding: var(--space-4) var(--space-8);
-  background: var(--color-secondary);
-  border-radius: var(--radius-sm);
-}
-
-.upgrade-btn {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border: none;
-  color: white;
-}
-
-.upgrade-btn:hover {
-  background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
-}
-
-/* Tab Content */
-.tab-content {
-  display: none;
-  padding: var(--space-24) 0;
-  min-height: calc(100vh - 80px);
-}
-
-.tab-content.active {
-  display: block;
-}
-
-/* Dashboard */
-.dashboard-header {
-  text-align: center;
-  margin-bottom: var(--space-32);
-}
-
-.dashboard-header h2 {
-  margin-bottom: var(--space-8);
-  color: var(--color-text);
-}
-
-.dashboard-date {
-  color: var(--color-text-secondary);
-  font-size: var(--font-size-lg);
-}
-
-.dashboard-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--space-24);
-}
-
-.dashboard-card {
-  background: var(--color-surface);
-  border: 1px solid var(--color-card-border);
-  border-radius: var(--radius-lg);
-  padding: var(--space-20);
-  box-shadow: var(--shadow-sm);
-}
-
-.dashboard-card h3 {
-  margin: 0 0 var(--space-16) 0;
-  color: var(--color-text);
-  font-size: var(--font-size-lg);
-}
-
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: var(--space-16);
-}
-
-.card-header h3 {
-  margin: 0;
-}
-
-/* Quick Stats */
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--space-16);
-}
-
-.stat-item {
-  text-align: center;
-  padding: var(--space-12);
-  background: var(--color-background);
-  border-radius: var(--radius-base);
-  border: 1px solid var(--color-card-border);
-}
-
-.stat-value {
-  display: block;
-  font-size: var(--font-size-2xl);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-primary);
-  margin-bottom: var(--space-4);
-}
-
-.stat-label {
-  font-size: var(--font-size-xs);
-  color: var(--color-text-secondary);
-}
-
-/* Task Items */
-.task-item {
-  display: flex;
-  align-items: center;
-  gap: var(--space-12);
-  padding: var(--space-12);
-  background: var(--color-background);
-  border: 1px solid var(--color-card-border);
-  border-radius: var(--radius-base);
-  margin-bottom: var(--space-8);
-  transition: all var(--duration-fast) var(--ease-standard);
-}
-
-.task-item:hover {
-  border-color: var(--color-primary);
-  box-shadow: var(--shadow-xs);
-}
-
-.task-item label {
-  flex: 1;
-  cursor: pointer;
-}
-
-.task-item label.completed {
-  text-decoration: line-through;
-  opacity: 0.6;
-}
-
-.task-priority {
-  padding: var(--space-2) var(--space-6);
-  border-radius: var(--radius-sm);
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-medium);
-}
-
-.task-priority.high {
-  background: rgba(var(--color-error-rgb), 0.15);
-  color: var(--color-error);
-}
-
-.task-priority.medium {
-  background: rgba(var(--color-warning-rgb), 0.15);
-  color: var(--color-warning);
-}
-
-.task-priority.low {
-  background: rgba(var(--color-success-rgb), 0.15);
-  color: var(--color-success);
-}
-
-/* Goals */
-.goal-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: var(--space-12);
-  padding: var(--space-12);
-  background: var(--color-background);
-  border: 1px solid var(--color-card-border);
-  border-radius: var(--radius-base);
-}
-
-.goal-info h4 {
-  margin: 0 0 var(--space-4) 0;
-  font-size: var(--font-size-base);
-}
-
-.goal-category {
-  padding: var(--space-2) var(--space-6);
-  border-radius: var(--radius-sm);
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-medium);
-}
-
-.goal-category.work {
-  background: var(--color-bg-1);
-  color: var(--color-primary);
-}
-
-.goal-category.health {
-  background: var(--color-bg-3);
-  color: var(--color-success);
-}
-
-.goal-category.personal {
-  background: var(--color-bg-7);
-  color: var(--color-error);
-}
-
-.goal-progress {
-  display: flex;
-  align-items: center;
-  gap: var(--space-8);
-}
-
-.progress-bar {
-  width: 100px;
-  height: 8px;
-  background: var(--color-secondary);
-  border-radius: var(--radius-full);
-  overflow: hidden;
-}
-
-.progress-fill {
-  height: 100%;
-  background: linear-gradient(135deg, var(--color-primary), var(--color-teal-400));
-  transition: width var(--duration-normal) var(--ease-standard);
-}
-
-.progress-text {
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-secondary);
-  min-width: 40px;
-}
-
-/* Habits */
-.habit-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: var(--space-12);
-  background: var(--color-background);
-  border: 1px solid var(--color-card-border);
-  border-radius: var(--radius-base);
-  margin-bottom: var(--space-8);
-}
-
-.habit-name {
-  font-weight: var(--font-weight-medium);
-}
-
-.habit-streak {
-  display: flex;
-  align-items: center;
-  gap: var(--space-4);
-}
-
-.streak-count {
-  font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-primary);
-}
-
-.streak-label {
-  font-size: var(--font-size-xs);
-  color: var(--color-text-secondary);
-}
-
-/* Section Headers */
-.section-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: var(--space-24);
-  flex-wrap: wrap;
-  gap: var(--space-16);
-}
-
-.section-header h2 {
-  margin: 0;
-  color: var(--color-text);
-}
-
-.section-actions {
-  display: flex;
-  gap: var(--space-8);
-}
-
-/* Tasks Tab Specific */
-.tasks-toolbar {
-  display: flex;
-  gap: var(--space-16);
-  margin-bottom: var(--space-24);
-  padding: var(--space-16);
-  background: var(--color-surface);
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--color-card-border);
-  flex-wrap: wrap;
-}
-
-.filter-group {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-  min-width: 150px;
-}
-
-.tasks-container {
-  background: var(--color-surface);
-  border: 1px solid var(--color-card-border);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-}
-
-.task-list-header {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: var(--space-16);
-  padding: var(--space-16);
-  background: var(--color-background);
-  border-bottom: 1px solid var(--color-card-border);
-  font-weight: var(--font-weight-semibold);
-  font-size: var(--font-size-sm);
-}
-
-.task-list .task-item {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: var(--space-16);
-  align-items: center;
-  background: var(--color-surface);
-  border: none;
-  border-bottom: 1px solid var(--color-card-border);
-  border-radius: 0;
-  margin: 0;
-}
-
-/* Goals Grid */
-.goals-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: var(--space-20);
-}
-
-.goal-card {
-  background: var(--color-surface);
-  border: 1px solid var(--color-card-border);
-  border-radius: var(--radius-lg);
-  padding: var(--space-20);
-  box-shadow: var(--shadow-sm);
-  transition: all var(--duration-fast) var(--ease-standard);
-}
-
-.goal-card:hover {
-  box-shadow: var(--shadow-md);
-  transform: translateY(-2px);
-}
-
-/* Habits Calendar */
-.habits-calendar {
-  background: var(--color-surface);
-  border: 1px solid var(--color-card-border);
-  border-radius: var(--radius-lg);
-  padding: var(--space-20);
-}
-
-.calendar-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: var(--space-20);
-  flex-wrap: wrap;
-  gap: var(--space-16);
-}
-
-.week-navigation {
-  display: flex;
-  align-items: center;
-  gap: var(--space-12);
-}
-
-.current-week {
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text);
-}
-
-.habits-grid {
-  display: grid;
-  gap: var(--space-16);
-}
-
-.habit-row {
-  display: grid;
-  grid-template-columns: 200px repeat(7, 1fr);
-  gap: var(--space-8);
-  align-items: center;
-  padding: var(--space-12);
-  background: var(--color-background);
-  border-radius: var(--radius-base);
-  border: 1px solid var(--color-card-border);
-}
-
-.habit-day {
-  width: 32px;
-  height: 32px;
-  border-radius: var(--radius-full);
-  background: var(--color-secondary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all var(--duration-fast) var(--ease-standard);
-}
-
-.habit-day.completed {
-  background: var(--color-success);
-  color: white;
-}
-
-.habit-day:hover {
-  transform: scale(1.1);
-}
-
-/* Analytics */
-.analytics-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: var(--space-20);
-}
-
-.analytics-card {
-  background: var(--color-surface);
-  border: 1px solid var(--color-card-border);
-  border-radius: var(--radius-lg);
-  padding: var(--space-20);
-  box-shadow: var(--shadow-sm);
-  position: relative;
-}
-
-.analytics-card h3 {
-  margin: 0 0 var(--space-12) 0;
-  color: var(--color-text);
-  font-size: var(--font-size-base);
-}
-
-.metric-value {
-  font-size: var(--font-size-3xl);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-primary);
-  margin-bottom: var(--space-4);
-}
-
-.metric-change {
-  font-size: var(--font-size-sm);
-  margin-bottom: var(--space-16);
-}
-
-.metric-change.positive {
-  color: var(--color-success);
-}
-
-.metric-change.negative {
-  color: var(--color-error);
-}
-
-.chart-placeholder {
-  background: var(--color-background);
-  border-radius: var(--radius-base);
-  border: 1px solid var(--color-card-border);
-  height: 150px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--color-text-secondary);
-}
-
-.analytics-card.premium-feature {
-  position: relative;
-}
-
-.premium-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(var(--color-background), 0.9);
-  border-radius: var(--radius-lg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2;
-}
-
-.premium-content {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-8);
-}
-
-.premium-icon {
-  font-size: var(--font-size-2xl);
-}
-
-.blur {
-  filter: blur(3px);
-}
-
-/* Templates */
-.template-filters {
-  display: flex;
-  gap: var(--space-8);
-  flex-wrap: wrap;
-}
-
-.filter-btn {
-  padding: var(--space-6) var(--space-12);
-  border: 1px solid var(--color-border);
-  background: var(--color-surface);
-  color: var(--color-text);
-  border-radius: var(--radius-base);
-  cursor: pointer;
-  transition: all var(--duration-fast) var(--ease-standard);
-  font-size: var(--font-size-sm);
-}
-
-.filter-btn:hover,
-.filter-btn.active {
-  background: var(--color-primary);
-  color: var(--color-btn-primary-text);
-  border-color: var(--color-primary);
-}
-
-.templates-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: var(--space-20);
-  margin-top: var(--space-24);
-}
-
-.template-card {
-  background: var(--color-surface);
-  border: 1px solid var(--color-card-border);
-  border-radius: var(--radius-lg);
-  padding: var(--space-20);
-  box-shadow: var(--shadow-sm);
-  transition: all var(--duration-fast) var(--ease-standard);
-  position: relative;
-}
-
-.template-card:hover {
-  box-shadow: var(--shadow-md);
-  transform: translateY(-2px);
-}
-
-.template-card.locked {
-  opacity: 0.7;
-}
-
-.template-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: var(--space-12);
-}
-
-.template-tier {
-  padding: var(--space-2) var(--space-6);
-  border-radius: var(--radius-sm);
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-medium);
-}
-
-.template-tier.free {
-  background: rgba(var(--color-info-rgb), 0.15);
-  color: var(--color-info);
-}
-
-.template-tier.basic {
-  background: rgba(var(--color-success-rgb), 0.15);
-  color: var(--color-success);
-}
-
-.template-tier.pro {
-  background: rgba(var(--color-warning-rgb), 0.15);
-  color: var(--color-warning);
-}
-
-.template-price {
-  font-weight: var(--font-weight-bold);
-  color: var(--color-primary);
-}
-
-.template-preview {
-  height: 120px;
-  background: var(--color-background);
-  border: 1px solid var(--color-card-border);
-  border-radius: var(--radius-base);
-  margin: var(--space-12) 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--color-text-secondary);
-  font-size: var(--font-size-sm);
-  text-align: center;
-  padding: var(--space-12);
-}
-
-.lock-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(var(--color-background), 0.8);
-  border-radius: var(--radius-lg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2;
-}
-
-.lock-content {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-8);
-}
-
-.lock-icon {
-  font-size: var(--font-size-2xl);
-}
-
-/* Premium Tab */
-.premium-hero {
-  text-align: center;
-  margin-bottom: var(--space-40);
-  padding: var(--space-32);
-  background: linear-gradient(135deg, var(--color-bg-1), var(--color-bg-5));
-  border-radius: var(--radius-lg);
-}
-
-.premium-hero h2 {
-  margin-bottom: var(--space-8);
-  font-size: var(--font-size-3xl);
-}
-
-.premium-hero p {
-  font-size: var(--font-size-lg);
-  color: var(--color-text-secondary);
-}
-
-/* Comparison Table */
-.comparison-table {
-  background: var(--color-surface);
-  border: 1px solid var(--color-card-border);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  margin-bottom: var(--space-32);
-}
-
-.comparison-header {
-  display: grid;
-  grid-template-columns: 2fr repeat(4, 1fr);
-  background: var(--color-background);
-  border-bottom: 1px solid var(--color-card-border);
-}
-
-.feature-column,
-.tier-column {
-  padding: var(--space-16);
-  text-align: center;
-  position: relative;
-}
-
-.feature-column {
-  text-align: left;
-  font-weight: var(--font-weight-semibold);
-}
-
-.tier-column.popular {
-  background: linear-gradient(135deg, var(--color-bg-1), var(--color-bg-5));
-  position: relative;
-}
-
-.popular-badge {
-  position: absolute;
-  top: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--color-primary);
-  color: var(--color-btn-primary-text);
-  padding: var(--space-4) var(--space-12);
-  border-radius: var(--radius-full);
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-semibold);
-}
-
-.tier-name {
-  font-weight: var(--font-weight-bold);
-  font-size: var(--font-size-lg);
-  margin-bottom: var(--space-4);
-}
-
-.tier-price {
-  color: var(--color-primary);
-  font-weight: var(--font-weight-semibold);
-}
-
-.comparison-body {
-  background: var(--color-surface);
-}
-
-.comparison-row {
-  display: grid;
-  grid-template-columns: 2fr repeat(4, 1fr);
-  border-bottom: 1px solid var(--color-card-border);
-}
-
-.comparison-row:last-child {
-  border-bottom: none;
-}
-
-.feature-name {
-  padding: var(--space-12) var(--space-16);
-  font-weight: var(--font-weight-medium);
-  border-right: 1px solid var(--color-card-border);
-}
-
-.feature-value {
-  padding: var(--space-12) var(--space-16);
-  text-align: center;
-  color: var(--color-text-secondary);
-}
-
-.comparison-footer {
-  display: grid;
-  grid-template-columns: 2fr repeat(4, 1fr);
-  background: var(--color-background);
-  border-top: 1px solid var(--color-card-border);
-}
-
-.cta-column {
-  padding: var(--space-16);
-  text-align: center;
-}
-
-.current-plan {
-  color: var(--color-text-secondary);
-  font-weight: var(--font-weight-medium);
-}
-
-/* Social Proof */
-.social-proof {
-  text-align: center;
-}
-
-.social-proof h3 {
-  margin-bottom: var(--space-24);
-}
-
-.testimonials {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: var(--space-24);
-}
-
-.testimonial {
-  background: var(--color-surface);
-  border: 1px solid var(--color-card-border);
-  border-radius: var(--radius-lg);
-  padding: var(--space-20);
-  box-shadow: var(--shadow-sm);
-}
-
-.testimonial p {
-  font-style: italic;
-  margin-bottom: var(--space-16);
-  color: var(--color-text);
-}
-
-.testimonial-author strong {
-  color: var(--color-text);
-}
-
-.testimonial-author span {
-  color: var(--color-text-secondary);
-  font-size: var(--font-size-sm);
-}
-
-/* Limitation Notices */
-.limitation-notice {
-  margin-top: var(--space-24);
-  padding: var(--space-16);
-  background: rgba(var(--color-warning-rgb), 0.1);
-  border: 1px solid var(--color-warning);
-  border-radius: var(--radius-lg);
-}
-
-.notice-content {
-  display: flex;
-  align-items: center;
-  gap: var(--space-12);
-}
-
-.notice-icon {
-  font-size: var(--font-size-lg);
-}
-
-.notice-text {
-  flex: 1;
-  font-size: var(--font-size-sm);
-  color: var(--color-text);
-}
-
-.upgrade-link {
-  color: var(--color-primary);
-  font-weight: var(--font-weight-semibold);
-  text-decoration: underline;
-}
-
-.upgrade-link:hover {
-  color: var(--color-primary-hover);
-}
-
-/* Modals */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2000;
-  padding: var(--space-16);
-}
-
-.modal-content {
-  background: var(--color-surface);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg);
-  width: 100%;
-  max-width: 500px;
-  max-height: 90vh;
-  overflow-y: auto;
-}
-
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: var(--space-20);
-  border-bottom: 1px solid var(--color-card-border);
-}
-
-.modal-header h3 {
-  margin: 0;
-}
-
-.modal-close {
-  background: none;
-  border: none;
-  font-size: var(--font-size-xl);
-  cursor: pointer;
-  color: var(--color-text-secondary);
-  padding: var(--space-4);
-  border-radius: var(--radius-base);
-}
-
-.modal-close:hover {
-  background: var(--color-secondary);
-}
-
-.modal-body {
-  padding: var(--space-20);
-}
-
-.modal-actions {
-  display: flex;
-  gap: var(--space-12);
-  justify-content: flex-end;
-  margin-top: var(--space-20);
-}
-
-/* Upgrade Plans */
-.upgrade-plans {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: var(--space-20);
-}
-
-.upgrade-plan {
-  border: 1px solid var(--color-card-border);
-  border-radius: var(--radius-lg);
-  padding: var(--space-20);
-  position: relative;
-  background: var(--color-background);
-}
-
-.upgrade-plan.popular {
-  border-color: var(--color-primary);
-  box-shadow: var(--shadow-md);
-}
-
-.upgrade-plan h4 {
-  margin: 0 0 var(--space-16) 0;
-  font-size: var(--font-size-lg);
-}
-
-.upgrade-plan ul {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 var(--space-16) 0;
-}
-
-.upgrade-plan li {
-  padding: var(--space-4) 0;
-  font-size: var(--font-size-sm);
-}
-
-.time-range-selector {
-  display: flex;
-  align-items: center;
-  gap: var(--space-8);
-}
-
-.time-range-selector select {
-  min-width: 150px;
-}
-
-/* Responsive Design */
-@media (min-width: 768px) {
-  .nav-tabs {
-    display: flex;
-  }
-  
-  .dashboard-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
-  .stats-grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-  
-  .comparison-header,
-  .comparison-row,
-  .comparison-footer {
-    grid-template-columns: 2fr repeat(4, 1fr);
-  }
-  
-  .habit-row {
-    grid-template-columns: 200px repeat(7, 1fr);
-  }
-}
-
-@media (max-width: 767px) {
-  .container {
-    padding-left: var(--space-12);
-    padding-right: var(--space-12);
-  }
-
-  .navbar {
-    padding: var(--space-8) 0;
-  }
-
-  .nav-content {
-    flex-direction: column;
-    gap: var(--space-12);
-  }
-
-  .nav-tabs {
-    display: none;
-  }
-  
-  .nav-actions {
-    width: 100%;
-    justify-content: center;
-  }
-  
-  .logo {
-    font-size: var(--font-size-lg);
-    text-align: center;
-  }
-
-  .dashboard-header {
-    margin-bottom: var(--space-20);
-  }
-
-  .dashboard-header h2 {
-    font-size: var(--font-size-2xl);
-  }
-
-  .dashboard-grid {
-    grid-template-columns: 1fr;
-    gap: var(--space-16);
-  }
-
-  .dashboard-card {
-    padding: var(--space-16);
-  }
-
-  .stats-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-12);
-  }
-
-  .stat-item {
-    padding: var(--space-8);
-  }
-
-  .stat-value {
-    font-size: var(--font-size-xl);
-  }
-
-  .section-header {
-    flex-direction: column;
-    align-items: stretch;
-    gap: var(--space-12);
-  }
-
-  .section-header h2 {
-    font-size: var(--font-size-2xl);
-    text-align: center;
-  }
-
-  .section-actions {
-    justify-content: center;
-  }
-  
-  .tasks-toolbar {
-    flex-direction: column;
-    gap: var(--space-12);
-  }
-
-  .filter-group {
-    min-width: auto;
-  }
-  
-  .task-list-header {
-    display: none;
-  }
-  
-  .task-list .task-item {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--space-8);
-    padding: var(--space-12);
-    flex-wrap: wrap;
-  }
-
-  .task-item > div:first-child {
-    order: 1;
-  }
-
-  .task-priority {
-    order: 2;
-    justify-self: start;
-  }
-
-  .task-due-date {
-    order: 3;
-    justify-self: start;
-    font-size: var(--font-size-sm);
-    color: var(--color-text-secondary);
-  }
-
-  .task-item > div:last-child {
-    order: 4;
-    display: flex;
-    gap: var(--space-8);
-    justify-content: flex-start;
-  }
-
-  .goals-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .goal-card {
-    padding: var(--space-16);
-  }
-
-  .analytics-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .analytics-card {
-    padding: var(--space-16);
-  }
-
-  .templates-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .template-card {
-    padding: var(--space-16);
-  }
-
-  .template-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--space-8);
-  }
-
-  .template-actions {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-8);
-  }
-
-  .template-filters {
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .premium-hero {
-    padding: var(--space-20);
-  }
-
-  .premium-hero h2 {
-    font-size: var(--font-size-2xl);
-  }
-  
-  .comparison-header,
-  .comparison-row,
-  .comparison-footer {
-    grid-template-columns: 1fr;
-    text-align: left;
-  }
-  
-  .tier-column,
-  .feature-value,
-  .cta-column {
-    border-bottom: 1px solid var(--color-card-border);
-    padding: var(--space-12);
-  }
-
-  .tier-column {
-    text-align: left;
-  }
-
-  .popular-badge {
-    position: static;
-    transform: none;
-    display: inline-block;
-    margin-top: var(--space-8);
-  }
-  
-  .habit-row {
-    grid-template-columns: repeat(8, 1fr);
-    gap: var(--space-4);
-    text-align: center;
-    padding: var(--space-8);
-  }
-
-  .habit-row > div:first-child {
-    grid-column: 1 / -1;
-    margin-bottom: var(--space-8);
-    text-align: left;
-  }
-
-  .habit-day {
-    width: 28px;
-    height: 28px;
-    font-size: var(--font-size-xs);
-  }
-  
-  .calendar-header {
-    flex-direction: column;
-    text-align: center;
-    gap: var(--space-12);
-  }
-
-  .week-navigation {
-    flex-direction: column;
-    gap: var(--space-8);
-  }
-
-  .habits-calendar {
-    padding: var(--space-16);
-  }
-
-  .testimonials {
-    grid-template-columns: 1fr;
-  }
-
-  .testimonial {
-    padding: var(--space-16);
-  }
-
-  .upgrade-plans {
-    grid-template-columns: 1fr;
-  }
-
-  .modal-content {
-    margin: var(--space-16);
-    max-width: calc(100vw - 32px);
-  }
-
-  .modal-header,
-  .modal-body {
-    padding: var(--space-16);
-  }
-
-  .modal-actions {
-    flex-direction: column;
-    gap: var(--space-8);
-  }
-
-  .limitation-notice {
-    margin-top: var(--space-16);
-    padding: var(--space-12);
-  }
-
-  .notice-content {
-    flex-direction: column;
-    text-align: center;
-    gap: var(--space-8);
-  }
-
-  .tab-content {
-    padding: var(--space-16) 0 100px 0;
-  }
-}
-
-/* Mobile Navigation */
-@media (max-width: 767px) {
-  .mobile-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: var(--color-surface);
-    border-top: 1px solid var(--color-card-border);
-    padding: var(--space-4);
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: var(--space-4);
-    z-index: 1000;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .mobile-nav-item {
-    padding: var(--space-6) var(--space-4);
-    text-align: center;
-    border-radius: var(--radius-base);
-    font-size: var(--font-size-xs);
-    color: var(--color-text-secondary);
-    cursor: pointer;
-    transition: all var(--duration-fast) var(--ease-standard);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-2);
-    line-height: 1.2;
-  }
-  
-  .mobile-nav-item.active {
-    background: var(--color-primary);
-    color: var(--color-btn-primary-text);
-  }
-
-  .mobile-nav-item:hover {
-    background: var(--color-secondary);
-    color: var(--color-text);
-  }
-
-  .mobile-nav-item.active:hover {
-    background: var(--color-primary-hover);
-    color: var(--color-btn-primary-text);
-  }
-}
-
-/* Tablet specific styles */
-@media (min-width: 768px) and (max-width: 1023px) {
-  .dashboard-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .goals-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .analytics-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .templates-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .testimonials {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .upgrade-plans {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .habit-row {
-    grid-template-columns: 150px repeat(7, 1fr);
-  }
-}
-
-/* Large screen optimizations */
-@media (min-width: 1280px) {
-  .dashboard-grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-
-  .goals-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  .analytics-grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-
-  .templates-grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-/* Touch-friendly improvements */
-@media (hover: none) and (pointer: coarse) {
-  .btn {
-    min-height: 44px;
-    padding: var(--space-12) var(--space-16);
-  }
-
-  .btn--sm {
-    min-height: 36px;
-    padding: var(--space-8) var(--space-12);
-  }
-
-  .form-control {
-    min-height: 44px;
-    padding: var(--space-12);
-  }
-
-  .nav-tab {
-    min-height: 44px;
-    padding: var(--space-12) var(--space-16);
-  }
-
-  .habit-day {
-    min-width: 44px;
-    min-height: 44px;
-  }
-
-  .filter-btn {
-    min-height: 44px;
-    padding: var(--space-8) var(--space-16);
-  }
-}
-
-/* Animations */
-.fade-in {
-  animation: fadeIn 0.3s ease-out;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.slide-up {
-  animation: slideUp 0.3s ease-out;
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Enhanced Animations */
-.bounce-in {
-  animation: bounceIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
-
-@keyframes bounceIn {
-  0% {
-    opacity: 0;
-    transform: scale(0.3);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.05);
-  }
-  70% {
-    transform: scale(0.9);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-.pulse {
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(var(--color-primary-rgb, 33, 128, 141), 0.7);
-  }
-  70% {
-    box-shadow: 0 0 0 10px rgba(var(--color-primary-rgb, 33, 128, 141), 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(var(--color-primary-rgb, 33, 128, 141), 0);
-  }
-}
-
-.shake {
-  animation: shake 0.5s ease-in-out;
-}
-
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-5px); }
-  75% { transform: translateX(5px); }
-}
-
-.glow {
-  box-shadow: 0 0 20px rgba(var(--color-primary-rgb, 33, 128, 141), 0.3);
-  transition: box-shadow 0.3s ease;
-}
-
-.glow:hover {
-  box-shadow: 0 0 30px rgba(var(--color-primary-rgb, 33, 128, 141), 0.5);
-}
-
-/* Enhanced Card Hover Effects */
-.dashboard-card,
-.goal-card,
-.template-card,
-.analytics-card {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.dashboard-card:hover,
-.goal-card:hover,
-.template-card:hover,
-.analytics-card:hover {
-  transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-}
-
-/* Progress Bar Animations */
-.progress-fill {
-  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
-}
-
-.progress-fill::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.4),
-    transparent
-  );
-  animation: shimmer 2s infinite;
-}
-
-@keyframes shimmer {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
-}
-
-/* Enhanced Button Styles */
-.btn {
-  position: relative;
-  overflow: hidden;
-  transform: translateZ(0);
-}
-
-.btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.2),
-    transparent
-  );
-  transition: left 0.5s;
-}
-
-.btn:hover::before {
-  left: 100%;
-}
-
-.btn--primary {
-  background: linear-gradient(135deg, var(--color-primary), var(--color-teal-400));
-  box-shadow: 0 4px 15px rgba(var(--color-primary-rgb, 33, 128, 141), 0.3);
-}
-
-.btn--primary:hover {
-  background: linear-gradient(135deg, var(--color-primary-hover), var(--color-teal-500));
-  box-shadow: 0 6px 20px rgba(var(--color-primary-rgb, 33, 128, 141), 0.4);
-  transform: translateY(-2px);
-}
-
-/* Enhanced Task Items */
-.task-item {
-  position: relative;
-  overflow: hidden;
-}
-
-.task-item::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 3px;
-  background: var(--color-primary);
-  transform: scaleY(0);
-  transition: transform 0.3s ease;
-}
-
-.task-item:hover::before {
-  transform: scaleY(1);
-}
-
-.task-item.completed {
-  background: rgba(var(--color-success-rgb), 0.05);
-}
-
-.task-item.completed::before {
-  background: var(--color-success);
-  transform: scaleY(1);
-}
-
-/* Enhanced Stats */
-.stat-item {
-  position: relative;
-  overflow: hidden;
-}
-
-.stat-item::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--color-primary), var(--color-teal-400));
-  transform: scaleX(0);
-  transition: transform 0.3s ease;
-}
-
-.stat-item:hover::after {
-  transform: scaleX(1);
-}
-
-/* Loading States */
-.loading {
-  position: relative;
-  pointer-events: none;
-}
-
-.loading::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(var(--color-surface-rgb, 255, 255, 253), 0.8);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.spinner {
-  width: 20px;
-  height: 20px;
-  border: 2px solid var(--color-border);
-  border-top: 2px solid var(--color-primary);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-/* Enhanced Habit Tracker */
-.habit-day {
-  position: relative;
-  overflow: hidden;
-}
-
-.habit-day::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  background: rgba(var(--color-success-rgb), 0.3);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  transition: all 0.3s ease;
-}
-
-.habit-day:hover::before {
-  width: 100%;
-  height: 100%;
-}
-
-.habit-day.completed {
-  background: linear-gradient(135deg, var(--color-success), var(--color-teal-400));
-  box-shadow: 0 2px 8px rgba(var(--color-success-rgb), 0.3);
-}
-
-/* Enhanced Navigation */
-.nav-tab {
-  position: relative;
-}
-
-.nav-tab::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  width: 0;
-  height: 2px;
-  background: var(--color-primary);
-  transition: all 0.3s ease;
-  transform: translateX(-50%);
-}
-
-.nav-tab:hover::after,
-.nav-tab.active::after {
-  width: 100%;
-}
-
-/* Enhanced Modal */
-.modal-overlay {
-  backdrop-filter: blur(5px);
-  animation: fadeIn 0.3s ease;
-}
-
-.modal-content {
-  animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
-}
-
-/* Success States */
-.success-checkmark {
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: var(--color-success);
-  position: relative;
-  animation: bounceIn 0.6s ease;
-}
-
-.success-checkmark::after {
-  content: '✓';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: white;
-  font-size: 12px;
-  font-weight: bold;
-}
-
-/* Enhanced Premium Features */
-.premium-badge {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  animation: pulse 2s infinite;
-}
-
-.premium-feature {
-  position: relative;
-}
-
-.premium-feature::before {
-  content: '👑';
-  position: absolute;
-  top: -5px;
-  right: -5px;
-  background: linear-gradient(135deg, #ffd700, #ffed4e);
-  border-radius: 50%;
-  width: 24px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  z-index: 1;
-  animation: bounce 2s infinite;
-}
-
-@keyframes bounce {
-  0%, 20%, 50%, 80%, 100% {
-    transform: translateY(0);
-  }
-  40% {
-    transform: translateY(-10px);
-  }
-  60% {
-    transform: translateY(-5px);
-  }
-}
-
-/* Enhanced Tooltips */
-.tooltip {
-  position: relative;
-  cursor: help;
-}
-
-.tooltip::before {
-  content: attr(data-tooltip);
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--color-charcoal-800);
-  color: white;
-  padding: var(--space-8) var(--space-12);
-  border-radius: var(--radius-base);
-  font-size: var(--font-size-sm);
-  white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-  z-index: 1000;
-}
-
-.tooltip::after {
-  content: '';
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  border: 5px solid transparent;
-  border-top-color: var(--color-charcoal-800);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.tooltip:hover::before,
-.tooltip:hover::after {
-  opacity: 1;
-}
-
-/* Enhanced Notifications */
-.notification {
-  border-left-width: 4px;
-  animation: slideInRight 0.3s ease;
-}
-
-@keyframes slideInRight {
-  from {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-.notification--success {
-  background: linear-gradient(135deg, rgba(var(--color-success-rgb), 0.1), rgba(var(--color-success-rgb), 0.05));
-}
-
-.notification--error {
-  background: linear-gradient(135deg, rgba(var(--color-error-rgb), 0.1), rgba(var(--color-error-rgb), 0.05));
-}
-
-.notification--warning {
-  background: linear-gradient(135deg, rgba(var(--color-warning-rgb), 0.1), rgba(var(--color-warning-rgb), 0.05));
-}
-
-/* Enhanced Form Elements */
-.form-control:focus {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(var(--color-primary-rgb, 33, 128, 141), 0.15);
-}
-
-.form-group {
-  position: relative;
-}
-
-.form-group.has-error .form-control {
-  border-color: var(--color-error);
-  animation: shake 0.5s ease-in-out;
-}
-
-.form-group.has-success .form-control {
-  border-color: var(--color-success);
-}
-
-/* Micro-interactions */
-.clickable {
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.clickable:active {
-  transform: scale(0.98);
-}
-
-/* Enhanced Mobile Navigation */
-@media (max-width: 767px) {
-  .mobile-nav-item {
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .mobile-nav-item::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: var(--color-primary);
-    transform: scaleX(0);
-    transition: transform 0.3s ease;
-  }
-  
-  .mobile-nav-item.active::before {
-    transform: scaleX(1);
-  }
-  
-  .mobile-nav-item:active {
-    transform: scale(0.95);
-  }
-}
-/* Focus states for accessibility */
-.nav-tab:focus-visible,
-.btn:focus-visible,
-.form-control:focus-visible {
-  outline: var(--focus-outline);
-  outline-offset: 2px;
-}
-
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-  .task-priority,
-  .goal-category,
-  .template-tier {
-    border: 1px solid currentColor;
-  }
-}
-
-/* Reduced motion support */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlannerPro - Digital Productivity Planner</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <h1 class="logo">
+                    <div class="logo-icon">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            <path d="M8 6h8M8 10h8M8 14h5"/>
+                        </svg>
+                    </div>
+                    <span class="logo-text">PlannerPro</span>
+                </h1>
+                <div class="nav-tabs">
+                    <button class="nav-tab active" data-tab="dashboard">Dashboard</button>
+                    <button class="nav-tab" data-tab="tasks">Tasks</button>
+                    <button class="nav-tab" data-tab="goals">Goals</button>
+                    <button class="nav-tab" data-tab="habits">Habits</button>
+                    <button class="nav-tab" data-tab="analytics">Analytics</button>
+                    <button class="nav-tab" data-tab="templates">Templates</button>
+                    <button class="nav-tab premium-tab" data-tab="premium">Premium</button>
+                </div>
+                <div class="nav-actions">
+                    <div class="tier-indicator">
+                        <span class="current-tier">Free Tier</span>
+                        <button class="btn btn--primary btn--sm upgrade-btn">Upgrade</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Tab -->
+    <section id="dashboard" class="tab-content active">
+        <div class="container">
+            <div class="dashboard-header">
+                <h2>Today's Overview</h2>
+                <p class="dashboard-date">Tuesday, July 22, 2025</p>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="dashboard-card quick-stats">
+                    <h3>Quick Stats</h3>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-value" id="todayTasks">3</span>
+                            <span class="stat-label">Today's Tasks</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value" id="completedTasks">1</span>
+                            <span class="stat-label">Completed</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value" id="activeGoals">3</span>
+                            <span class="stat-label">Active Goals</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value" id="habitStreak">7</span>
+                            <span class="stat-label">Best Streak</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-card today-tasks">
+                    <div class="card-header">
+                        <h3>Today's Tasks</h3>
+                        <button class="btn btn--outline btn--sm add-quick-task glow">+ Add Task</button>
+                    </div>
+                    <div class="task-list" id="dashboardTasks">
+                        <div class="task-item">
+                            <input type="checkbox" id="task1">
+                            <label for="task1">Review quarterly reports</label>
+                            <span class="task-priority high">High</span>
+                        </div>
+                        <div class="task-item">
+                            <input type="checkbox" id="task2" checked>
+                            <label for="task2" class="completed">Team standup meeting</label>
+                            <span class="task-priority medium">Medium</span>
+                        </div>
+                        <div class="task-item">
+                            <input type="checkbox" id="task3">
+                            <label for="task3">Update project documentation</label>
+                            <span class="task-priority low">Low</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-card current-goals">
+                    <div class="card-header">
+                        <h3>Current Goals</h3>
+                        <button class="btn btn--outline btn--sm tooltip" onclick="switchTab('goals')" data-tooltip="See all your goals">View All</button>
+                    </div>
+                    <div class="goals-preview">
+                        <div class="goal-item">
+                            <div class="goal-info">
+                                <h4>Complete Project Alpha</h4>
+                                <span class="goal-category work">Work</span>
+                            </div>
+                            <div class="goal-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 75%"></div>
+                                </div>
+                                <span class="progress-text">75%</span>
+                            </div>
+                        </div>
+                        <div class="goal-item">
+                            <div class="goal-info">
+                                <h4>Exercise 5x per week</h4>
+                                <span class="goal-category health">Health</span>
+                            </div>
+                            <div class="goal-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 60%"></div>
+                                </div>
+                                <span class="progress-text">3/5</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-card habit-streak">
+                    <div class="card-header">
+                        <h3>Habit Tracker</h3>
+                        <button class="btn btn--outline btn--sm tooltip" onclick="switchTab('habits')" data-tooltip="Track all your habits">View All</button>
+                    </div>
+                    <div class="habits-preview">
+                        <div class="habit-item">
+                            <span class="habit-name">🧘 Morning meditation</span>
+                            <div class="habit-streak">
+                                <span class="streak-count">7</span>
+                                <span class="streak-label">days</span>
+                            </div>
+                        </div>
+                        <div class="habit-item">
+                            <span class="habit-name">💧 Drink water</span>
+                            <div class="habit-streak">
+                                <span class="streak-count">12</span>
+                                <span class="streak-label">days</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Weekly Goals Tracker -->
+                <div class="dashboard-card weekly-goals">
+                    <div class="card-header">
+                        <h3>Weekly Goals</h3>
+                        <div class="week-navigation">
+                            <button class="btn btn--outline btn--sm prev-week-btn">‹</button>
+                            <span class="current-week-display">Jul 21-27</span>
+                            <button class="btn btn--outline btn--sm next-week-btn">›</button>
+                        </div>
+                    </div>
+                    <div class="weekly-goals-content">
+                        <div class="week-progress-overview">
+                            <div class="progress-ring-container">
+                                <svg class="progress-ring" width="60" height="60">
+                                    <circle cx="30" cy="30" r="25" fill="none" stroke="var(--color-border)" stroke-width="4"/>
+                                    <circle class="progress-ring-progress" cx="30" cy="30" r="25" fill="none" stroke="var(--color-primary)" stroke-width="4" stroke-dasharray="157" stroke-dashoffset="47"/>
+                                </svg>
+                                <div class="progress-ring-text">
+                                    <span class="progress-percentage">70%</span>
+                                    <span class="progress-label">Week</span>
+                                </div>
+                            </div>
+                            <div class="week-stats">
+                                <div class="stat-mini">
+                                    <span class="stat-number">5</span>
+                                    <span class="stat-text">Goals</span>
+                                </div>
+                                <div class="stat-mini">
+                                    <span class="stat-number">3</span>
+                                    <span class="stat-text">Done</span>
+                                </div>
+                                <div class="stat-mini">
+                                    <span class="stat-number">2</span>
+                                    <span class="stat-text">Left</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="weekly-goals-list">
+                            <div class="weekly-goal-item completed">
+                                <div class="goal-checkbox">
+                                    <svg class="checkmark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                        <polyline points="20,6 9,17 4,12"></polyline>
+                                    </svg>
+                                </div>
+                                <div class="goal-content">
+                                    <div class="goal-title">Complete 3 workout sessions</div>
+                                    <div class="goal-progress-mini">
+                                        <div class="progress-dots">
+                                            <div class="dot completed"></div>
+                                            <div class="dot completed"></div>
+                                            <div class="dot completed"></div>
+                                        </div>
+                                        <span class="goal-count">3/3</span>
+                                    </div>
+                                </div>
+                                <div class="goal-category fitness">💪</div>
+                            </div>
+                            <div class="weekly-goal-item in-progress">
+                                <div class="goal-checkbox">
+                                    <div class="progress-indicator"></div>
+                                </div>
+                                <div class="goal-content">
+                                    <div class="goal-title">Read 2 chapters</div>
+                                    <div class="goal-progress-mini">
+                                        <div class="progress-dots">
+                                            <div class="dot completed"></div>
+                                            <div class="dot pending"></div>
+                                        </div>
+                                        <span class="goal-count">1/2</span>
+                                    </div>
+                                </div>
+                                <div class="goal-category learning">📚</div>
+                            </div>
+                            <div class="weekly-goal-item pending">
+                                <div class="goal-checkbox">
+                                    <div class="empty-indicator"></div>
+                                </div>
+                                <div class="goal-content">
+                                    <div class="goal-title">Finish project proposal</div>
+                                    <div class="goal-progress-mini">
+                                        <div class="progress-dots">
+                                            <div class="dot pending"></div>
+                                        </div>
+                                        <span class="goal-count">0/1</span>
+                                    </div>
+                                </div>
+                                <div class="goal-category work">💼</div>
+                            </div>
+                        </div>
+                        <button class="add-weekly-goal-btn">
+                            <span class="plus-icon">+</span>
+                            <span>Add Weekly Goal</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tasks Tab -->
+    <section id="tasks" class="tab-content">
+        <div class="container">
+            <div class="section-header">
+                <h2>Task Management</h2>
+                <div class="section-actions">
+                    <button class="btn btn--primary add-task-btn pulse">+ Add Task</button>
+                </div>
+            </div>
+
+            <div class="tasks-toolbar">
+                <div class="filter-group">
+                    <label class="form-label">Filter by Priority:</label>
+                    <select class="form-control filter-priority">
+                        <option value="all">All Priorities</option>
+                        <option value="high">High</option>
+                        <option value="medium">Medium</option>
+                        <option value="low">Low</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="form-label">Status:</label>
+                    <select class="form-control filter-status">
+                        <option value="all">All Tasks</option>
+                        <option value="pending">Pending</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="tasks-container">
+                <div class="task-list-header">
+                    <span>Task</span>
+                    <span>Priority</span>
+                    <span>Due Date</span>
+                    <span>Actions</span>
+                </div>
+                <div class="task-list" id="mainTaskList">
+                    <!-- Tasks will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Free Tier Limitation Notice -->
+            <div class="limitation-notice">
+                <div class="notice-content">
+                    <span class="notice-icon">⚠️</span>
+                    <div class="notice-text">
+                        <strong>Free Tier Limit:</strong> You can only create up to 10 tasks. 
+                        <a href="#" class="upgrade-link">Upgrade to Basic</a> for unlimited tasks.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Goals Tab -->
+    <section id="goals" class="tab-content">
+        <div class="container">
+            <div class="section-header">
+                <h2>Goal Tracking</h2>
+                <div class="section-actions">
+                    <button class="btn btn--primary add-goal-btn glow">+ Add Goal</button>
+                </div>
+            </div>
+
+            <div class="goals-grid" id="goalsGrid">
+                <!-- Goals will be populated by JavaScript -->
+            </div>
+
+            <!-- Goal Limit Notice for Free Users -->
+            <div class="limitation-notice">
+                <div class="notice-content">
+                    <span class="notice-icon">🎯</span>
+                    <div class="notice-text">
+                        <strong>Free Tier:</strong> 3 of 5 goals used. 
+                        <a href="#" class="upgrade-link">Upgrade to Basic</a> for unlimited goals.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Habits Tab -->
+    <section id="habits" class="tab-content">
+        <div class="container">
+            <div class="section-header">
+                <h2>Habit Tracker</h2>
+                <div class="section-actions">
+                    <button class="btn btn--primary add-habit-btn">+ Add Habit</button>
+                </div>
+            </div>
+
+            <div class="habits-calendar">
+                <div class="calendar-header">
+                    <h3>This Week</h3>
+                    <div class="week-navigation">
+                        <button class="btn btn--outline btn--sm prev-week">← Prev</button>
+                        <span class="current-week">July 21-27, 2025</span>
+                        <button class="btn btn--outline btn--sm next-week">Next →</button>
+                    </div>
+                </div>
+                
+                <div class="habits-grid" id="habitsGrid">
+                    <!-- Habits will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Analytics Tab -->
+    <section id="analytics" class="tab-content">
+        <div class="container">
+            <div class="section-header">
+                <h2>Analytics Dashboard</h2>
+                <div class="time-range-selector">
+                    <select class="form-control">
+                        <option value="week">This Week</option>
+                        <option value="month">This Month</option>
+                        <option value="quarter">This Quarter</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="analytics-grid">
+                <div class="analytics-card">
+                    <h3>Task Completion Rate</h3>
+                    <div class="metric-value">73%</div>
+                    <div class="metric-change positive">+5% from last week</div>
+                    <div class="chart-placeholder">
+                        <canvas id="taskCompletionChart" width="300" height="150"></canvas>
+                    </div>
+                </div>
+
+                <div class="analytics-card">
+                    <h3>Goal Progress</h3>
+                    <div class="metric-value">67%</div>
+                    <div class="metric-change positive">+12% from last month</div>
+                    <div class="chart-placeholder">
+                        <canvas id="goalProgressChart" width="300" height="150"></canvas>
+                    </div>
+                </div>
+
+                <div class="analytics-card">
+                    <h3>Habit Streaks</h3>
+                    <div class="metric-value">8.5</div>
+                    <div class="metric-label">Average streak length</div>
+                    <div class="chart-placeholder">
+                        <canvas id="habitStreakChart" width="300" height="150"></canvas>
+                    </div>
+                </div>
+
+                <div class="analytics-card premium-feature">
+                    <div class="premium-overlay">
+                        <div class="premium-content">
+                            <span class="premium-icon">👑</span>
+                            <h4>Advanced Analytics</h4>
+                            <p>Unlock detailed insights with Pro</p>
+                            <button class="btn btn--primary btn--sm">Upgrade Now</button>
+                        </div>
+                    </div>
+                    <h3>Productivity Trends</h3>
+                    <div class="metric-value blur">92%</div>
+                    <div class="chart-placeholder blur">
+                        <canvas width="300" height="150"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Templates Tab -->
+    <section id="templates" class="tab-content">
+        <div class="container">
+            <div class="section-header">
+                <h2>Template Library</h2>
+                <div class="template-filters">
+                    <button class="filter-btn active" data-tier="all">All Templates</button>
+                    <button class="filter-btn" data-tier="free">Free</button>
+                    <button class="filter-btn" data-tier="basic">Basic</button>
+                    <button class="filter-btn" data-tier="pro">Pro</button>
+                </div>
+            </div>
+
+            <div class="templates-grid" id="templatesGrid">
+                <!-- Templates will be populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Premium Tab -->
+    <section id="premium" class="tab-content">
+        <div class="container">
+            <div class="premium-hero">
+                <h2>Upgrade Your Productivity</h2>
+                <p>Unlock powerful features and take your planning to the next level</p>
+            </div>
+
+            <!-- Feature Comparison Table -->
+            <div class="comparison-table">
+                <div class="comparison-header">
+                    <div class="feature-column">Features</div>
+                    <div class="tier-column">
+                        <div class="tier-name">Free</div>
+                        <div class="tier-price">$0/month</div>
+                    </div>
+                    <div class="tier-column">
+                        <div class="tier-name">Basic</div>
+                        <div class="tier-price">$19/month</div>
+                    </div>
+                    <div class="tier-column popular">
+                        <div class="tier-name">Pro</div>
+                        <div class="tier-price">$49/month</div>
+                        <div class="popular-badge">Most Popular</div>
+                    </div>
+                    <div class="tier-column">
+                        <div class="tier-name">Premium</div>
+                        <div class="tier-price">$99/month</div>
+                    </div>
+                </div>
+
+                <div class="comparison-body">
+                    <div class="comparison-row">
+                        <div class="feature-name">Templates</div>
+                        <div class="feature-value">3 basic</div>
+                        <div class="feature-value">10 templates</div>
+                        <div class="feature-value">50 templates</div>
+                        <div class="feature-value">Unlimited</div>
+                    </div>
+                    <div class="comparison-row">
+                        <div class="feature-name">Goals</div>
+                        <div class="feature-value">5 max</div>
+                        <div class="feature-value">Unlimited</div>
+                        <div class="feature-value">Unlimited</div>
+                        <div class="feature-value">Unlimited</div>
+                    </div>
+                    <div class="comparison-row">
+                        <div class="feature-name">Export</div>
+                        <div class="feature-value">Watermarked</div>
+                        <div class="feature-value">No watermark</div>
+                        <div class="feature-value">No watermark</div>
+                        <div class="feature-value">White-label</div>
+                    </div>
+                    <div class="comparison-row">
+                        <div class="feature-name">Team Features</div>
+                        <div class="feature-value">❌</div>
+                        <div class="feature-value">❌</div>
+                        <div class="feature-value">✅</div>
+                        <div class="feature-value">✅</div>
+                    </div>
+                    <div class="comparison-row">
+                        <div class="feature-name">Analytics</div>
+                        <div class="feature-value">Basic</div>
+                        <div class="feature-value">Basic</div>
+                        <div class="feature-value">Advanced</div>
+                        <div class="feature-value">Advanced + AI</div>
+                    </div>
+                    <div class="comparison-row">
+                        <div class="feature-name">Support</div>
+                        <div class="feature-value">Email</div>
+                        <div class="feature-value">Email</div>
+                        <div class="feature-value">Priority</div>
+                        <div class="feature-value">Dedicated</div>
+                    </div>
+                </div>
+
+                <div class="comparison-footer">
+                    <div class="cta-column">
+                        <span class="current-plan">Current Plan</span>
+                    </div>
+                    <div class="cta-column">
+                        <button class="btn btn--primary">Upgrade Now</button>
+                    </div>
+                    <div class="cta-column">
+                        <button class="btn btn--primary">Start Free Trial</button>
+                    </div>
+                    <div class="cta-column">
+                        <button class="btn btn--outline">Contact Sales</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Social Proof -->
+            <div class="social-proof">
+                <h3>Trusted by 10,000+ Users</h3>
+                <div class="testimonials">
+                    <div class="testimonial">
+                        <p>"PlannerPro transformed my productivity. The analytics helped me identify patterns I never noticed before."</p>
+                        <div class="testimonial-author">
+                            <strong>Sarah Johnson</strong>
+                            <span>Project Manager</span>
+                        </div>
+                    </div>
+                    <div class="testimonial">
+                        <p>"The team features in Pro made collaboration seamless. Worth every penny for our startup."</p>
+                        <div class="testimonial-author">
+                            <strong>Mike Chen</strong>
+                            <span>Startup Founder</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Add Task Modal -->
+    <div class="modal-overlay" id="addTaskModal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Task</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="addTaskForm">
+                    <div class="form-group">
+                        <label class="form-label">Task Title</label>
+                        <input type="text" class="form-control" id="taskTitle" placeholder="Enter task description" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Priority</label>
+                        <select class="form-control" id="taskPriority">
+                            <option value="low">Low</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Due Date</label>
+                        <input type="date" class="form-control" id="taskDueDate">
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn btn--outline cancel-btn">Cancel</button>
+                        <button type="submit" class="btn btn--primary">Add Task</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Goal Modal -->
+    <div class="modal-overlay" id="addGoalModal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Goal</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="addGoalForm">
+                    <div class="form-group">
+                        <label class="form-label">Goal Title</label>
+                        <input type="text" class="form-control" id="goalTitle" placeholder="Enter your goal" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Category</label>
+                        <select class="form-control" id="goalCategory">
+                            <option value="work">Work</option>
+                            <option value="health">Health</option>
+                            <option value="personal">Personal</option>
+                            <option value="learning">Learning</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Target Value</label>
+                        <input type="number" class="form-control" id="goalTarget" placeholder="100" min="1" required>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn btn--outline cancel-btn">Cancel</button>
+                        <button type="submit" class="btn btn--primary">Add Goal</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upgrade Modal -->
+    <div class="modal-overlay" id="upgradeModal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Choose Your Plan</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="upgrade-plans">
+                    <div class="upgrade-plan">
+                        <h4>Basic - $19/month</h4>
+                        <ul>
+                            <li>✅ 10 templates</li>
+                            <li>✅ Unlimited goals</li>
+                            <li>✅ No watermarks</li>
+                            <li>✅ Email support</li>
+                        </ul>
+                        <button class="btn btn--primary clickable">Choose Basic</button>
+                    </div>
+                    <div class="upgrade-plan popular">
+                        <div class="popular-badge">Most Popular</div>
+                        <h4>Pro - $49/month</h4>
+                        <ul>
+                            <li>✅ Everything in Basic</li>
+                            <li>✅ 50+ templates</li>
+                            <li>✅ Team sharing</li>
+                            <li>✅ Advanced analytics</li>
+                            <li>✅ AI insights</li>
+                            <li>✅ Priority support</li>
+                        </ul>
+                        <button class="btn btn--primary clickable pulse">Start Free Trial</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
