@@ -1,742 +1,621 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PlannerPro - Digital Productivity Planner</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="container">
-            <div class="nav-content">
-                <h1 class="logo">
-                    <div class="logo-icon">
-                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                            <path d="M8 6h8M8 10h8M8 14h5"/>
-                        </svg>
-                    </div>
-                    <span class="logo-text">PlannerPro</span>
-                </h1>
-                <div class="nav-tabs">
-                    <button class="nav-tab active" data-tab="dashboard">Dashboard</button>
-                    <button class="nav-tab" data-tab="tasks">Tasks</button>
-                    <button class="nav-tab" data-tab="goals">Goals</button>
-                    <button class="nav-tab" data-tab="habits">Habits</button>
-                    <button class="nav-tab" data-tab="analytics">Analytics</button>
-                    <button class="nav-tab" data-tab="templates">Templates</button>
-                    <button class="nav-tab premium-tab" data-tab="premium">Premium</button>
-                </div>
-                <div class="nav-actions">
-                    <div class="tier-indicator">
-                        <span class="current-tier">Free Tier</span>
-                        <button class="btn btn--primary btn--sm upgrade-btn">Upgrade</button>
-                    </div>
-                </div>
+// PlannerPro Application JavaScript
+
+// Global state
+let currentTab = 'dashboard';
+let tasks = [
+    { id: 1, title: 'Review quarterly reports', priority: 'high', completed: false, dueDate: '2025-07-22' },
+    { id: 2, title: 'Team standup meeting', priority: 'medium', completed: true, dueDate: '2025-07-22' },
+    { id: 3, title: 'Update project documentation', priority: 'low', completed: false, dueDate: '2025-07-23' }
+];
+
+let goals = [
+    { id: 1, title: 'Complete Project Alpha', category: 'work', progress: 75, target: 100 },
+    { id: 2, title: 'Exercise 5x per week', category: 'health', progress: 3, target: 5 },
+    { id: 3, title: 'Read 12 books this year', category: 'learning', progress: 8, target: 12 }
+];
+
+let habits = [
+    { id: 1, name: '🧘 Morning meditation', streak: 7, completed: [true, true, true, true, true, true, true] },
+    { id: 2, name: '💧 Drink water', streak: 12, completed: [true, true, false, true, true, true, true] }
+];
+
+let weeklyGoals = [
+    { id: 1, title: 'Complete 3 workouts', progress: 3, target: 3, category: 'fitness', completed: true },
+    { id: 2, title: 'Read 2 chapters', progress: 1, target: 2, category: 'learning', completed: false },
+    { id: 3, title: 'Call 5 clients', progress: 0, target: 5, category: 'work', completed: false },
+    { id: 4, title: 'Meal prep Sunday', progress: 1, target: 1, category: 'health', completed: true }
+];
+
+// DOM Elements
+const navTabs = document.querySelectorAll('.nav-tab');
+const mobileNavTabs = document.querySelectorAll('.mobile-nav-tab');
+const tabContents = document.querySelectorAll('.tab-content');
+const addTaskModal = document.getElementById('addTaskModal');
+const addGoalModal = document.getElementById('addGoalModal');
+const upgradeModal = document.getElementById('upgradeModal');
+
+// Initialize app
+document.addEventListener('DOMContentLoaded', function() {
+    initializeApp();
+    setupEventListeners();
+    renderTasks();
+    renderGoals();
+    renderHabits();
+    renderTemplates();
+    renderWeeklyGoals();
+    updateDashboardStats();
+});
+
+function initializeApp() {
+    // Set current date
+    const dateElement = document.querySelector('.dashboard-date');
+    if (dateElement) {
+        const today = new Date();
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        dateElement.textContent = today.toLocaleDateString('en-US', options);
+    }
+
+    // Initialize charts
+    initializeCharts();
+}
+
+function setupEventListeners() {
+    // Navigation tabs (desktop)
+    navTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const tabName = tab.dataset.tab;
+            switchTab(tabName);
+        });
+    });
+
+    // Navigation tabs (mobile)
+    mobileNavTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const tabName = tab.dataset.tab;
+            switchTab(tabName);
+        });
+    });
+
+    // Modal controls
+    setupModalControls();
+    
+    // Form submissions
+    setupFormSubmissions();
+    
+    // Filter controls
+    setupFilterControls();
+    
+    // Upgrade buttons
+    setupUpgradeButtons();
+    
+    // Weekly goal interactions
+    setupWeeklyGoalInteractions();
+}
+
+function switchTab(tabName) {
+    // Update active tab (desktop)
+    navTabs.forEach(tab => {
+        tab.classList.toggle('active', tab.dataset.tab === tabName);
+    });
+
+    // Update active tab (mobile)
+    mobileNavTabs.forEach(tab => {
+        tab.classList.toggle('active', tab.dataset.tab === tabName);
+    });
+
+    // Update active content
+    tabContents.forEach(content => {
+        content.classList.toggle('active', content.id === tabName);
+    });
+
+    currentTab = tabName;
+
+    // Trigger specific tab initialization
+    if (tabName === 'analytics') {
+        initializeCharts();
+    }
+}
+
+function setupModalControls() {
+    // Modal close buttons
+    document.querySelectorAll('.modal-close, .cancel-btn').forEach(btn => {
+        btn.addEventListener('click', closeModals);
+    });
+
+    // Modal overlay clicks
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) {
+                closeModals();
+            }
+        });
+    });
+
+    // Add task buttons
+    document.querySelectorAll('.add-task-btn, .add-quick-task').forEach(btn => {
+        btn.addEventListener('click', () => {
+            addTaskModal.style.display = 'flex';
+        });
+    });
+
+    // Add goal button
+    document.querySelector('.add-goal-btn')?.addEventListener('click', () => {
+        addGoalModal.style.display = 'flex';
+    });
+}
+
+function setupFormSubmissions() {
+    // Add task form
+    document.getElementById('addTaskForm')?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        addTask();
+    });
+
+    // Add goal form
+    document.getElementById('addGoalForm')?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        addGoal();
+    });
+}
+
+function setupFilterControls() {
+    // Task filters
+    document.querySelector('.filter-priority')?.addEventListener('change', filterTasks);
+    document.querySelector('.filter-status')?.addEventListener('change', filterTasks);
+    
+    // Template filters
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            e.target.classList.add('active');
+            filterTemplates(e.target.dataset.tier);
+        });
+    });
+}
+
+function setupUpgradeButtons() {
+    document.querySelectorAll('.upgrade-btn, .upgrade-link').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            upgradeModal.style.display = 'flex';
+        });
+    });
+}
+
+function setupWeeklyGoalInteractions() {
+    // Week navigation buttons
+    document.querySelector('.prev-week-btn')?.addEventListener('click', () => {
+        showUpgradePrompt('Week navigation is a premium feature');
+    });
+    
+    document.querySelector('.next-week-btn')?.addEventListener('click', () => {
+        showUpgradePrompt('Week navigation is a premium feature');
+    });
+    
+    // Add weekly goal button
+    document.querySelector('.add-weekly-goal-btn')?.addEventListener('click', () => {
+        showUpgradePrompt('Adding custom weekly goals requires a premium subscription');
+    });
+}
+
+function closeModals() {
+    document.querySelectorAll('.modal-overlay').forEach(modal => {
+        modal.style.display = 'none';
+    });
+}
+
+function addTask() {
+    const title = document.getElementById('taskTitle').value;
+    const priority = document.getElementById('taskPriority').value;
+    const dueDate = document.getElementById('taskDueDate').value;
+
+    if (tasks.length >= 10) {
+        showUpgradePrompt('Free tier limited to 10 tasks. Upgrade for unlimited tasks!');
+        return;
+    }
+
+    const newTask = {
+        id: Date.now(),
+        title,
+        priority,
+        completed: false,
+        dueDate
+    };
+
+    tasks.push(newTask);
+    renderTasks();
+    updateDashboardStats();
+    closeModals();
+    
+    // Reset form
+    document.getElementById('addTaskForm').reset();
+    
+    showNotification('Task added successfully! 🎉', 'success');
+}
+
+function addGoal() {
+    const title = document.getElementById('goalTitle').value;
+    const category = document.getElementById('goalCategory').value;
+    const target = parseInt(document.getElementById('goalTarget').value);
+
+    if (goals.length >= 5) {
+        showUpgradePrompt('Free tier limited to 5 goals. Upgrade for unlimited goals!');
+        return;
+    }
+
+    const newGoal = {
+        id: Date.now(),
+        title,
+        category,
+        progress: 0,
+        target
+    };
+
+    goals.push(newGoal);
+    renderGoals();
+    updateDashboardStats();
+    closeModals();
+    
+    // Reset form
+    document.getElementById('addGoalForm').reset();
+    
+    showNotification('Goal added successfully! 🎯', 'success');
+}
+
+function renderTasks() {
+    const taskList = document.getElementById('mainTaskList');
+    const dashboardTasks = document.getElementById('dashboardTasks');
+    
+    if (!taskList) return;
+
+    taskList.innerHTML = tasks.map(task => `
+        <div class="task-item ${task.completed ? 'completed' : ''}" data-task-id="${task.id}">
+            <div class="task-content">
+                <input type="checkbox" ${task.completed ? 'checked' : ''} 
+                       onchange="toggleTask(${task.id})">
+                <span class="task-title">${task.title}</span>
+            </div>
+            <span class="task-priority ${task.priority}">${task.priority}</span>
+            <span class="task-due-date">${task.dueDate || 'No date'}</span>
+            <div class="task-actions">
+                <button class="btn btn--sm btn--outline" onclick="deleteTask(${task.id})">Delete</button>
             </div>
         </div>
-    </nav>
+    `).join('');
 
-    <!-- Dashboard Tab -->
-    <section id="dashboard" class="tab-content active">
-        <div class="container">
-            <div class="dashboard-header">
-                <h2>Today's Overview</h2>
-                <p class="dashboard-date">Tuesday, July 22, 2025</p>
+    // Update dashboard tasks (first 3)
+    if (dashboardTasks) {
+        dashboardTasks.innerHTML = tasks.slice(0, 3).map((task, index) => `
+            <div class="task-item ${task.completed ? 'completed' : ''}">
+                <input type="checkbox" id="dashTask${index}" ${task.completed ? 'checked' : ''} 
+                       onchange="toggleTask(${task.id})">
+                <label for="dashTask${index}" class="${task.completed ? 'completed' : ''}">${task.title}</label>
+                <span class="task-priority ${task.priority}">${task.priority}</span>
             </div>
+        `).join('');
+    }
+}
 
-            <div class="dashboard-grid">
-                <div class="dashboard-card quick-stats">
-                    <h3>Quick Stats</h3>
-                    <div class="stats-grid">
-                        <div class="stat-item">
-                            <span class="stat-value" id="todayTasks">3</span>
-                            <span class="stat-label">Today's Tasks</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-value" id="completedTasks">1</span>
-                            <span class="stat-label">Completed</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-value" id="activeGoals">3</span>
-                            <span class="stat-label">Active Goals</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-value" id="habitStreak">7</span>
-                            <span class="stat-label">Best Streak</span>
-                        </div>
-                    </div>
-                </div>
+function renderGoals() {
+    const goalsGrid = document.getElementById('goalsGrid');
+    if (!goalsGrid) return;
 
-                <div class="dashboard-card today-tasks">
-                    <div class="card-header">
-                        <h3>Today's Tasks</h3>
-                        <button class="btn btn--outline btn--sm add-quick-task glow">+ Add Task</button>
-                    </div>
-                    <div class="task-list" id="dashboardTasks">
-                        <div class="task-item">
-                            <input type="checkbox" id="task1">
-                            <label for="task1">Review quarterly reports</label>
-                            <span class="task-priority high">High</span>
-                        </div>
-                        <div class="task-item">
-                            <input type="checkbox" id="task2" checked>
-                            <label for="task2" class="completed">Team standup meeting</label>
-                            <span class="task-priority medium">Medium</span>
-                        </div>
-                        <div class="task-item">
-                            <input type="checkbox" id="task3">
-                            <label for="task3">Update project documentation</label>
-                            <span class="task-priority low">Low</span>
-                        </div>
-                    </div>
+    goalsGrid.innerHTML = goals.map(goal => `
+        <div class="goal-card">
+            <div class="goal-header">
+                <h4>${goal.title}</h4>
+                <span class="goal-category ${goal.category}">${goal.category}</span>
+            </div>
+            <div class="goal-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: ${(goal.progress / goal.target) * 100}%"></div>
                 </div>
-
-                <div class="dashboard-card current-goals">
-                    <div class="card-header">
-                        <h3>Current Goals</h3>
-                        <button class="btn btn--outline btn--sm tooltip" onclick="switchTab('goals')" data-tooltip="See all your goals">View All</button>
-                    </div>
-                    <div class="goals-preview">
-                        <div class="goal-item">
-                            <div class="goal-info">
-                                <h4>Complete Project Alpha</h4>
-                                <span class="goal-category work">Work</span>
-                            </div>
-                            <div class="goal-progress">
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: 75%"></div>
-                                </div>
-                                <span class="progress-text">75%</span>
-                            </div>
-                        </div>
-                        <div class="goal-item">
-                            <div class="goal-info">
-                                <h4>Exercise 5x per week</h4>
-                                <span class="goal-category health">Health</span>
-                            </div>
-                            <div class="goal-progress">
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: 60%"></div>
-                                </div>
-                                <span class="progress-text">3/5</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="dashboard-card weekly-goals">
-                    <div class="card-header">
-                        <h3>Weekly Goals</h3>
-                        <div class="week-navigation">
-                            <button class="btn btn--outline btn--xs prev-week-btn" title="Previous Week">‹</button>
-                            <span class="current-week-display">Jul 21-27</span>
-                            <button class="btn btn--outline btn--xs next-week-btn" title="Next Week">›</button>
-                        </div>
-                    </div>
-                    <div class="weekly-goals-content">
-                        <div class="week-progress-ring">
-                            <svg class="progress-ring" width="80" height="80">
-                                <circle class="progress-ring-background" cx="40" cy="40" r="32" stroke="#2a2a2a" stroke-width="6" fill="transparent"/>
-                                <circle class="progress-ring-progress" cx="40" cy="40" r="32" stroke="url(#weeklyGradient)" stroke-width="6" fill="transparent" stroke-dasharray="201.06" stroke-dashoffset="60.32" stroke-linecap="round"/>
-                                <defs>
-                                    <linearGradient id="weeklyGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                        <stop offset="0%" style="stop-color:#1FB8CD"/>
-                                        <stop offset="100%" style="stop-color:#9333EA"/>
-                                    </linearGradient>
-                                </defs>
-                            </svg>
-                            <div class="progress-ring-text">
-                                <span class="progress-percentage">70%</span>
-                                <span class="progress-label">Complete</span>
-                            </div>
-                        </div>
-                        <div class="weekly-goals-list">
-                            <div class="weekly-goal-item completed">
-                                <div class="goal-checkbox">
-                                    <svg class="checkmark" viewBox="0 0 24 24">
-                                        <path d="M9 12l2 2 4-4"/>
-                                    </svg>
-                                </div>
-                                <div class="goal-content">
-                                    <span class="goal-title">Complete 3 workouts</span>
-                                    <div class="goal-progress-mini">
-                                        <div class="progress-dots">
-                                            <span class="dot completed"></span>
-                                            <span class="dot completed"></span>
-                                            <span class="dot completed"></span>
-                                        </div>
-                                        <span class="goal-count">3/3</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="weekly-goal-item in-progress">
-                                <div class="goal-checkbox">
-                                    <div class="progress-indicator"></div>
-                                </div>
-                                <div class="goal-content">
-                                    <span class="goal-title">Read 2 chapters</span>
-                                    <div class="goal-progress-mini">
-                                        <div class="progress-dots">
-                                            <span class="dot completed"></span>
-                                            <span class="dot pending"></span>
-                                        </div>
-                                        <span class="goal-count">1/2</span>
-                <div class="dashboard-card weekly-goals">
-                    <div class="card-header">
-                        <h3>Weekly Goals</h3>
-                        <div class="week-navigation">
-                            <button class="btn btn--outline btn--xs prev-week-btn" title="Previous Week">‹</button>
-                            <span class="current-week-display">Jul 21-27</span>
-                            <button class="btn btn--outline btn--xs next-week-btn" title="Next Week">›</button>
-                        </div>
-                    </div>
-                    <div class="weekly-goals-content">
-                        <div class="week-progress-ring">
-                            <svg class="progress-ring" width="80" height="80">
-                                <circle class="progress-ring-background" cx="40" cy="40" r="32" stroke="#2a2a2a" stroke-width="6" fill="transparent"/>
-                                <circle class="progress-ring-progress" cx="40" cy="40" r="32" stroke="url(#weeklyGradient)" stroke-width="6" fill="transparent" stroke-dasharray="201.06" stroke-dashoffset="60.32" stroke-linecap="round"/>
-                                <defs>
-                                    <linearGradient id="weeklyGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                        <stop offset="0%" style="stop-color:#1FB8CD"/>
-                                        <stop offset="100%" style="stop-color:#9333EA"/>
-                                    </linearGradient>
-                                </defs>
-                            </svg>
-                            <div class="progress-ring-text">
-                                <span class="progress-percentage">70%</span>
-                                <span class="progress-label">Complete</span>
-                            </div>
-                        </div>
-                        <div class="weekly-goals-list">
-                            <div class="weekly-goal-item completed">
-                                <div class="goal-checkbox">
-                                    <svg class="checkmark" viewBox="0 0 24 24">
-                                        <path d="M9 12l2 2 4-4"/>
-                                    </svg>
-                                </div>
-                                <div class="goal-content">
-                                    <span class="goal-title">Complete 3 workouts</span>
-                                    <div class="goal-progress-mini">
-                                        <div class="progress-dots">
-                                            <span class="dot completed"></span>
-                                            <span class="dot completed"></span>
-                                            <span class="dot completed"></span>
-                                        </div>
-                                        <span class="goal-count">3/3</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="weekly-goal-item in-progress">
-                                <div class="goal-checkbox">
-                                    <div class="progress-indicator"></div>
-                                </div>
-                                <div class="goal-content">
-                                    <span class="goal-title">Read 2 chapters</span>
-                                    <div class="goal-progress-mini">
-                                        <div class="progress-dots">
-                                            <span class="dot completed"></span>
-                                            <span class="dot pending"></span>
-                                        </div>
-                                        <span class="goal-count">1/2</span>
-                            </div>
-                            <div class="weekly-goal-item in-progress">
-                                <div class="goal-checkbox">
-                                    <div class="progress-indicator"></div>
-                                </div>
-                                <div class="goal-content">
-                                    <span class="goal-title">Read 2 chapters</span>
-                                    <div class="goal-progress-mini">
-                                        <div class="progress-dots">
-                                            <span class="dot completed"></span>
-                                            <span class="dot pending"></span>
-                                        </div>
-                                        <span class="goal-count">1/2</span>
-                                    </div>
-                                </div>
-                                <div class="goal-category learning">📚</div>
-                            </div>
-                            <div class="weekly-goal-item pending">
-                                <div class="goal-checkbox">
-                                    <div class="empty-indicator"></div>
-                                </div>
-                                <div class="goal-content">
-                                    <span class="goal-title">Call 5 clients</span>
-                                    <div class="goal-progress-mini">
-                                        <div class="progress-dots">
-                                            <span class="dot pending"></span>
-                                            <span class="dot pending"></span>
-                                            <span class="dot pending"></span>
-                                            <span class="dot pending"></span>
-                                            <span class="dot pending"></span>
-                                        </div>
-                                        <span class="goal-count">0/5</span>
-                                    </div>
-                                </div>
-                                <div class="goal-category work">💼</div>
-                            </div>
-                            <div class="weekly-goal-item completed">
-                                <div class="goal-checkbox">
-                                    <svg class="checkmark" viewBox="0 0 24 24">
-                                        <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2" fill="none"/>
-                                    </svg>
-                                </div>
-                                <div class="goal-content">
-                                    <span class="goal-title">Meal prep Sunday</span>
-                                    <div class="goal-progress-mini">
-                                        <div class="progress-dots">
-                                            <span class="dot completed"></span>
-                                        </div>
-                                        <span class="goal-count">1/1</span>
-                                    </div>
-                                </div>
-                                <div class="goal-category health">🥗</div>
-                            </div>
-                        </div>
-                        <button class="add-weekly-goal-btn">
-                            <span class="plus-icon">+</span>
-                            <span>Add Weekly Goal</span>
-                        </button>
-                    </div>
-                </div>
-                <div class="dashboard-card habit-streak">
-                    <div class="card-header">
-                        <h3>Habit Tracker</h3>
-                        <button class="btn btn--outline btn--sm tooltip" onclick="switchTab('habits')" data-tooltip="Track all your habits">View All</button>
-                    </div>
-                    <div class="habits-preview">
-                        <div class="habit-item">
-                            <span class="habit-name">🧘 Morning meditation</span>
-                            <div class="habit-streak">
-                                <span class="streak-count">7</span>
-                                <span class="streak-label">days</span>
-                            </div>
-                        </div>
-                        <div class="habit-item">
-                            <span class="habit-name">💧 Drink water</span>
-                            <div class="habit-streak">
-                                <span class="streak-count">12</span>
-                                <span class="streak-label">days</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <span class="progress-text">${goal.progress}/${goal.target}</span>
+            </div>
+            <div class="goal-actions">
+                <button class="btn btn--sm btn--outline" onclick="updateGoalProgress(${goal.id})">Update</button>
+                <button class="btn btn--sm btn--outline" onclick="deleteGoal(${goal.id})">Delete</button>
             </div>
         </div>
-    </section>
+    `).join('');
+}
 
-    <!-- Tasks Tab -->
-    <section id="tasks" class="tab-content">
-        <div class="container">
-            <div class="section-header">
-                <h2>Task Management</h2>
-                <div class="section-actions">
-                    <button class="btn btn--primary add-task-btn pulse">+ Add Task</button>
-                </div>
-            </div>
+function renderHabits() {
+    const habitsGrid = document.getElementById('habitsGrid');
+    if (!habitsGrid) return;
 
-            <div class="tasks-toolbar">
-                <div class="filter-group">
-                    <label class="form-label">Filter by Priority:</label>
-                    <select class="form-control filter-priority">
-                        <option value="all">All Priorities</option>
-                        <option value="high">High</option>
-                        <option value="medium">Medium</option>
-                        <option value="low">Low</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <label class="form-label">Status:</label>
-                    <select class="form-control filter-status">
-                        <option value="all">All Tasks</option>
-                        <option value="pending">Pending</option>
-                        <option value="completed">Completed</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="tasks-container">
-                <div class="task-list-header">
-                    <span>Task</span>
-                    <span>Priority</span>
-                    <span>Due Date</span>
-                    <span>Actions</span>
-                </div>
-                <div class="task-list" id="mainTaskList">
-                    <!-- Tasks will be populated by JavaScript -->
-                </div>
-            </div>
-
-            <!-- Free Tier Limitation Notice -->
-            <div class="limitation-notice">
-                <div class="notice-content">
-                    <span class="notice-icon">⚠️</span>
-                    <div class="notice-text">
-                        <strong>Free Tier Limit:</strong> You can only create up to 10 tasks. 
-                        <a href="#" class="upgrade-link">Upgrade to Basic</a> for unlimited tasks.
-                    </div>
-                </div>
-            </div>
+    const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    
+    habitsGrid.innerHTML = `
+        <div class="habits-header">
+            <div class="habit-name-header">Habit</div>
+            ${days.map(day => `<div class="day-header">${day}</div>`).join('')}
+            <div class="streak-header">Streak</div>
         </div>
-    </section>
-
-    <!-- Goals Tab -->
-    <section id="goals" class="tab-content">
-        <div class="container">
-            <div class="section-header">
-                <h2>Goal Tracking</h2>
-                <div class="section-actions">
-                    <button class="btn btn--primary add-goal-btn glow">+ Add Goal</button>
-                </div>
-            </div>
-
-            <div class="goals-grid" id="goalsGrid">
-                <!-- Goals will be populated by JavaScript -->
-            </div>
-
-            <!-- Goal Limit Notice for Free Users -->
-            <div class="limitation-notice">
-                <div class="notice-content">
-                    <span class="notice-icon">🎯</span>
-                    <div class="notice-text">
-                        <strong>Free Tier:</strong> 3 of 5 goals used. 
-                        <a href="#" class="upgrade-link">Upgrade to Basic</a> for unlimited goals.
+        ${habits.map(habit => `
+            <div class="habit-row">
+                <div class="habit-name">${habit.name}</div>
+                ${habit.completed.map((completed, index) => `
+                    <div class="habit-day ${completed ? 'completed' : ''}" 
+                         onclick="toggleHabit(${habit.id}, ${index})">
+                        ${completed ? '✓' : ''}
                     </div>
-                </div>
+                `).join('')}
+                <div class="habit-streak">${habit.streak} days</div>
             </div>
+        `).join('')}
+    `;
+}
+
+function renderTemplates() {
+    const templatesGrid = document.getElementById('templatesGrid');
+    if (!templatesGrid) return;
+
+    const templates = [
+        { name: 'Daily Planner', tier: 'free', description: 'Basic daily task planning' },
+        { name: 'Weekly Review', tier: 'free', description: 'Weekly goal assessment' },
+        { name: 'Project Tracker', tier: 'free', description: 'Simple project management' },
+        { name: 'Habit Builder', tier: 'basic', description: 'Advanced habit tracking' },
+        { name: 'Goal Setting', tier: 'basic', description: 'SMART goal framework' },
+        { name: 'Time Blocking', tier: 'pro', description: 'Advanced time management' },
+        { name: 'Team Planner', tier: 'pro', description: 'Collaborative planning' }
+    ];
+
+    templatesGrid.innerHTML = templates.map(template => `
+        <div class="template-card ${template.tier}" data-tier="${template.tier}">
+            <div class="template-header">
+                <h4>${template.name}</h4>
+                <span class="template-tier ${template.tier}">${template.tier}</span>
+            </div>
+            <p class="template-description">${template.description}</p>
+            <button class="btn btn--primary btn--sm ${template.tier !== 'free' ? 'premium-feature' : ''}" 
+                    onclick="${template.tier === 'free' ? 'useTemplate()' : 'showUpgradePrompt()'}">
+                ${template.tier === 'free' ? 'Use Template' : 'Upgrade to Use'}
+            </button>
         </div>
-    </section>
+    `).join('');
+}
 
-    <!-- Habits Tab -->
-    <section id="habits" class="tab-content">
-        <div class="container">
-            <div class="section-header">
-                <h2>Habit Tracker</h2>
-                <div class="section-actions">
-                    <button class="btn btn--primary add-habit-btn">+ Add Habit</button>
-                </div>
+function renderWeeklyGoals() {
+    const weeklyGoalsList = document.querySelector('.weekly-goals-list');
+    if (!weeklyGoalsList) return;
+
+    const categoryIcons = {
+        fitness: '💪',
+        learning: '📚',
+        work: '💼',
+        health: '🥗'
+    };
+
+    weeklyGoalsList.innerHTML = weeklyGoals.map(goal => `
+        <div class="weekly-goal-item ${goal.completed ? 'completed' : goal.progress > 0 ? 'in-progress' : 'pending'}" 
+             data-goal-id="${goal.id}">
+            <div class="goal-checkbox" onclick="updateWeeklyGoalProgress(${goal.id})">
+                ${goal.completed ? 
+                    '<svg class="checkmark" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2" fill="none"/></svg>' :
+                    goal.progress > 0 ? '<div class="progress-indicator"></div>' : '<div class="empty-indicator"></div>'
+                }
             </div>
-
-            <div class="habits-calendar">
-                <div class="calendar-header">
-                    <h3>This Week</h3>
-                    <div class="week-navigation">
-                        <button class="btn btn--outline btn--sm prev-week">← Prev</button>
-                        <span class="current-week">July 21-27, 2025</span>
-                        <button class="btn btn--outline btn--sm next-week">Next →</button>
+            <div class="goal-content">
+                <span class="goal-title">${goal.title}</span>
+                <div class="goal-progress-mini">
+                    <div class="progress-dots">
+                        ${Array.from({length: goal.target}, (_, i) => 
+                            `<span class="dot ${i < goal.progress ? 'completed' : 'pending'}"></span>`
+                        ).join('')}
                     </div>
-                </div>
-                
-                <div class="habits-grid" id="habitsGrid">
-                    <!-- Habits will be populated by JavaScript -->
+                    <span class="goal-count">${goal.progress}/${goal.target}</span>
                 </div>
             </div>
+            <div class="goal-category ${goal.category}">${categoryIcons[goal.category] || '📋'}</div>
         </div>
-    </section>
+    `).join('');
 
-    <!-- Analytics Tab -->
-    <section id="analytics" class="tab-content">
-        <div class="container">
-            <div class="section-header">
-                <h2>Analytics Dashboard</h2>
-                <div class="time-range-selector">
-                    <select class="form-control">
-                        <option value="week">This Week</option>
-                        <option value="month">This Month</option>
-                        <option value="quarter">This Quarter</option>
-                    </select>
-                </div>
-            </div>
+    updateWeeklyProgress();
+}
 
-            <div class="analytics-grid">
-                <div class="analytics-card">
-                    <h3>Task Completion Rate</h3>
-                    <div class="metric-value">73%</div>
-                    <div class="metric-change positive">+5% from last week</div>
-                    <div class="chart-placeholder">
-                        <canvas id="taskCompletionChart" width="300" height="150"></canvas>
-                    </div>
-                </div>
+function updateWeeklyProgress() {
+    const completedGoals = weeklyGoals.filter(goal => goal.completed).length;
+    const totalGoals = weeklyGoals.length;
+    const percentage = totalGoals > 0 ? Math.round((completedGoals / totalGoals) * 100) : 0;
+    
+    // Update progress ring
+    const progressRing = document.querySelector('.progress-ring-progress');
+    const progressText = document.querySelector('.progress-percentage');
+    
+    if (progressRing && progressText) {
+        const circumference = 2 * Math.PI * 32; // radius = 32
+        const offset = circumference - (percentage / 100) * circumference;
+        progressRing.style.strokeDashoffset = offset;
+        progressText.textContent = `${percentage}%`;
+    }
+}
 
-                <div class="analytics-card">
-                    <h3>Goal Progress</h3>
-                    <div class="metric-value">67%</div>
-                    <div class="metric-change positive">+12% from last month</div>
-                    <div class="chart-placeholder">
-                        <canvas id="goalProgressChart" width="300" height="150"></canvas>
-                    </div>
-                </div>
+function updateWeeklyGoalProgress(goalId) {
+    const goal = weeklyGoals.find(g => g.id === goalId);
+    if (!goal || goal.completed) return;
 
-                <div class="analytics-card">
-                    <h3>Habit Streaks</h3>
-                    <div class="metric-value">8.5</div>
-                    <div class="metric-label">Average streak length</div>
-                    <div class="chart-placeholder">
-                        <canvas id="habitStreakChart" width="300" height="150"></canvas>
-                    </div>
-                </div>
+    goal.progress = Math.min(goal.progress + 1, goal.target);
+    if (goal.progress >= goal.target) {
+        goal.completed = true;
+        showNotification('Weekly goal completed! 🎉', 'success');
+        
+        // Add celebration animation
+        const goalElement = document.querySelector(`[data-goal-id="${goalId}"]`);
+        if (goalElement) {
+            goalElement.style.animation = 'bounce 0.6s ease-in-out';
+            setTimeout(() => {
+                goalElement.style.animation = '';
+            }, 600);
+        }
+    }
 
-                <div class="analytics-card premium-feature">
-                    <div class="premium-overlay">
-                        <div class="premium-content">
-                            <span class="premium-icon">👑</span>
-                            <h4>Advanced Analytics</h4>
-                            <p>Unlock detailed insights with Pro</p>
-                            <button class="btn btn--primary btn--sm">Upgrade Now</button>
-                        </div>
-                    </div>
-                    <h3>Productivity Trends</h3>
-                    <div class="metric-value blur">92%</div>
-                    <div class="chart-placeholder blur">
-                        <canvas width="300" height="150"></canvas>
-                    </div>
-                </div>
-            </div>
+    renderWeeklyGoals();
+    updateDashboardStats();
+}
+
+function toggleTask(taskId) {
+    const task = tasks.find(t => t.id === taskId);
+    if (task) {
+        task.completed = !task.completed;
+        renderTasks();
+        updateDashboardStats();
+        
+        if (task.completed) {
+            showNotification('Task completed! Great job! 🎉', 'success');
+        }
+    }
+}
+
+function deleteTask(taskId) {
+    tasks = tasks.filter(t => t.id !== taskId);
+    renderTasks();
+    updateDashboardStats();
+    showNotification('Task deleted', 'info');
+}
+
+function toggleHabit(habitId, dayIndex) {
+    const habit = habits.find(h => h.id === habitId);
+    if (habit) {
+        habit.completed[dayIndex] = !habit.completed[dayIndex];
+        
+        // Recalculate streak
+        let streak = 0;
+        for (let i = habit.completed.length - 1; i >= 0; i--) {
+            if (habit.completed[i]) {
+                streak++;
+            } else {
+                break;
+            }
+        }
+        habit.streak = streak;
+        
+        renderHabits();
+        updateDashboardStats();
+        
+        if (habit.completed[dayIndex]) {
+            showNotification('Habit tracked! Keep it up! 💪', 'success');
+        }
+    }
+}
+
+function updateGoalProgress(goalId) {
+    const goal = goals.find(g => g.id === goalId);
+    if (goal) {
+        const newProgress = prompt(`Update progress for "${goal.title}" (current: ${goal.progress}/${goal.target}):`);
+        if (newProgress !== null && !isNaN(newProgress)) {
+            goal.progress = Math.min(Math.max(0, parseInt(newProgress)), goal.target);
+            renderGoals();
+            updateDashboardStats();
+            showNotification('Goal progress updated! 📈', 'success');
+        }
+    }
+}
+
+function deleteGoal(goalId) {
+    goals = goals.filter(g => g.id !== goalId);
+    renderGoals();
+    updateDashboardStats();
+    showNotification('Goal deleted', 'info');
+}
+
+function filterTasks() {
+    const priorityFilter = document.querySelector('.filter-priority').value;
+    const statusFilter = document.querySelector('.filter-status').value;
+    
+    const taskItems = document.querySelectorAll('#mainTaskList .task-item');
+    
+    taskItems.forEach(item => {
+        const taskId = parseInt(item.dataset.taskId);
+        const task = tasks.find(t => t.id === taskId);
+        
+        let show = true;
+        
+        if (priorityFilter !== 'all' && task.priority !== priorityFilter) {
+            show = false;
+        }
+        
+        if (statusFilter !== 'all') {
+            if (statusFilter === 'completed' && !task.completed) show = false;
+            if (statusFilter === 'pending' && task.completed) show = false;
+        }
+        
+        item.style.display = show ? 'flex' : 'none';
+    });
+}
+
+function filterTemplates(tier) {
+    const templateCards = document.querySelectorAll('.template-card');
+    
+    templateCards.forEach(card => {
+        if (tier === 'all' || card.dataset.tier === tier) {
+            card.style.display = 'block';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+}
+
+function updateDashboardStats() {
+    // Update task stats
+    const todayTasks = tasks.filter(t => t.dueDate === new Date().toISOString().split('T')[0]).length;
+    const completedTasks = tasks.filter(t => t.completed).length;
+    const activeGoals = goals.length;
+    const bestStreak = Math.max(...habits.map(h => h.streak), 0);
+    
+    document.getElementById('todayTasks').textContent = todayTasks;
+    document.getElementById('completedTasks').textContent = completedTasks;
+    document.getElementById('activeGoals').textContent = activeGoals;
+    document.getElementById('habitStreak').textContent = bestStreak;
+}
+
+function initializeCharts() {
+    // Simple chart initialization (placeholder)
+    const charts = ['taskCompletionChart', 'goalProgressChart', 'habitStreakChart'];
+    
+    charts.forEach(chartId => {
+        const canvas = document.getElementById(chartId);
+        if (canvas) {
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#1FB8CD';
+            ctx.fillRect(0, canvas.height - 50, canvas.width, 50);
+            ctx.fillStyle = '#9333EA';
+            ctx.fillRect(0, canvas.height - 80, canvas.width * 0.7, 30);
+        }
+    });
+}
+
+function useTemplate() {
+    showNotification('Template applied successfully! 📋', 'success');
+}
+
+function showUpgradePrompt(message = 'This feature requires a premium subscription') {
+    showNotification(message + ' 👑', 'upgrade');
+    setTimeout(() => {
+        upgradeModal.style.display = 'flex';
+    }, 2000);
+}
+
+function showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.innerHTML = `
+        <div class="notification-content">
+            <span class="notification-icon">
+                ${type === 'success' ? '✅' : type === 'upgrade' ? '👑' : 'ℹ️'}
+            </span>
+            <span class="notification-message">${message}</span>
         </div>
-    </section>
-
-    <!-- Templates Tab -->
-    <section id="templates" class="tab-content">
-        <div class="container">
-            <div class="section-header">
-                <h2>Template Library</h2>
-                <div class="template-filters">
-                    <button class="filter-btn active" data-tier="all">All Templates</button>
-                    <button class="filter-btn" data-tier="free">Free</button>
-                    <button class="filter-btn" data-tier="basic">Basic</button>
-                    <button class="filter-btn" data-tier="pro">Pro</button>
-                </div>
-            </div>
-
-            <div class="templates-grid" id="templatesGrid">
-                <!-- Templates will be populated by JavaScript -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Premium Tab -->
-    <section id="premium" class="tab-content">
-        <div class="container">
-            <div class="premium-hero">
-                <h2>Upgrade Your Productivity</h2>
-                <p>Unlock powerful features and take your planning to the next level</p>
-            </div>
-
-            <!-- Feature Comparison Table -->
-            <div class="comparison-table">
-                <div class="comparison-header">
-                    <div class="feature-column">Features</div>
-                    <div class="tier-column">
-                        <div class="tier-name">Free</div>
-                        <div class="tier-price">$0/month</div>
-                    </div>
-                    <div class="tier-column">
-                        <div class="tier-name">Basic</div>
-                        <div class="tier-price">$19/month</div>
-                    </div>
-                    <div class="tier-column popular">
-                        <div class="tier-name">Pro</div>
-                        <div class="tier-price">$49/month</div>
-                        <div class="popular-badge">Most Popular</div>
-                    </div>
-                    <div class="tier-column">
-                        <div class="tier-name">Premium</div>
-                        <div class="tier-price">$99/month</div>
-                    </div>
-                </div>
-
-                <div class="comparison-body">
-                    <div class="comparison-row">
-                        <div class="feature-name">Templates</div>
-                        <div class="feature-value">3 basic</div>
-                        <div class="feature-value">10 templates</div>
-                        <div class="feature-value">50 templates</div>
-                        <div class="feature-value">Unlimited</div>
-                    </div>
-                    <div class="comparison-row">
-                        <div class="feature-name">Goals</div>
-                        <div class="feature-value">5 max</div>
-                        <div class="feature-value">Unlimited</div>
-                        <div class="feature-value">Unlimited</div>
-                        <div class="feature-value">Unlimited</div>
-                    </div>
-                    <div class="comparison-row">
-                        <div class="feature-name">Export</div>
-                        <div class="feature-value">Watermarked</div>
-                        <div class="feature-value">No watermark</div>
-                        <div class="feature-value">No watermark</div>
-                        <div class="feature-value">White-label</div>
-                    </div>
-                    <div class="comparison-row">
-                        <div class="feature-name">Team Features</div>
-                        <div class="feature-value">❌</div>
-                        <div class="feature-value">❌</div>
-                        <div class="feature-value">✅</div>
-                        <div class="feature-value">✅</div>
-                    </div>
-                    <div class="comparison-row">
-                        <div class="feature-name">Analytics</div>
-                        <div class="feature-value">Basic</div>
-                        <div class="feature-value">Basic</div>
-                        <div class="feature-value">Advanced</div>
-                        <div class="feature-value">Advanced + AI</div>
-                    </div>
-                    <div class="comparison-row">
-                        <div class="feature-name">Support</div>
-                        <div class="feature-value">Email</div>
-                        <div class="feature-value">Email</div>
-                        <div class="feature-value">Priority</div>
-                        <div class="feature-value">Dedicated</div>
-                    </div>
-                </div>
-
-                <div class="comparison-footer">
-                    <div class="cta-column">
-                        <span class="current-plan">Current Plan</span>
-                    </div>
-                    <div class="cta-column">
-                        <button class="btn btn--primary">Upgrade Now</button>
-                    </div>
-                    <div class="cta-column">
-                        <button class="btn btn--primary">Start Free Trial</button>
-                    </div>
-                    <div class="cta-column">
-                        <button class="btn btn--outline">Contact Sales</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Social Proof -->
-            <div class="social-proof">
-                <h3>Trusted by 10,000+ Users</h3>
-                <div class="testimonials">
-                    <div class="testimonial">
-                        <p>"PlannerPro transformed my productivity. The analytics helped me identify patterns I never noticed before."</p>
-                        <div class="testimonial-author">
-                            <strong>Sarah Johnson</strong>
-                            <span>Project Manager</span>
-                        </div>
-                    </div>
-                    <div class="testimonial">
-                        <p>"The team features in Pro made collaboration seamless. Worth every penny for our startup."</p>
-                        <div class="testimonial-author">
-                            <strong>Mike Chen</strong>
-                            <span>Startup Founder</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Add Task Modal -->
-    <div class="modal-overlay" id="addTaskModal" style="display: none;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Add New Task</h3>
-                <button class="modal-close">&times;</button>
-            </div>
-            <div class="modal-body">
-                <form id="addTaskForm">
-                    <div class="form-group">
-                        <label class="form-label">Task Title</label>
-                        <input type="text" class="form-control" id="taskTitle" placeholder="Enter task description" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Priority</label>
-                        <select class="form-control" id="taskPriority">
-                            <option value="low">Low</option>
-                            <option value="medium" selected>Medium</option>
-                            <option value="high">High</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Due Date</label>
-                        <input type="date" class="form-control" id="taskDueDate">
-                    </div>
-                    <div class="modal-actions">
-                        <button type="button" class="btn btn--outline cancel-btn">Cancel</button>
-                        <button type="submit" class="btn btn--primary">Add Task</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Add Goal Modal -->
-    <div class="modal-overlay" id="addGoalModal" style="display: none;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Add New Goal</h3>
-                <button class="modal-close">&times;</button>
-            </div>
-            <div class="modal-body">
-                <form id="addGoalForm">
-                    <div class="form-group">
-                        <label class="form-label">Goal Title</label>
-                        <input type="text" class="form-control" id="goalTitle" placeholder="Enter your goal" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Category</label>
-                        <select class="form-control" id="goalCategory">
-                            <option value="work">Work</option>
-                            <option value="health">Health</option>
-                            <option value="personal">Personal</option>
-                            <option value="learning">Learning</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Target Value</label>
-                        <input type="number" class="form-control" id="goalTarget" placeholder="100" min="1" required>
-                    </div>
-                    <div class="modal-actions">
-                        <button type="button" class="btn btn--outline cancel-btn">Cancel</button>
-                        <button type="submit" class="btn btn--primary">Add Goal</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Upgrade Modal -->
-    <div class="modal-overlay" id="upgradeModal" style="display: none;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Choose Your Plan</h3>
-                <button class="modal-close">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="upgrade-plans">
-                    <div class="upgrade-plan">
-                        <h4>Basic - $19/month</h4>
-                        <ul>
-                            <li>✅ 10 templates</li>
-                            <li>✅ Unlimited goals</li>
-                            <li>✅ No watermarks</li>
-                            <li>✅ Email support</li>
-                        </ul>
-                        <button class="btn btn--primary clickable">Choose Basic</button>
-                    </div>
-                    <div class="upgrade-plan popular">
-                        <div class="popular-badge">Most Popular</div>
-                        <h4>Pro - $49/month</h4>
-                        <ul>
-                            <li>✅ Everything in Basic</li>
-                            <li>✅ 50+ templates</li>
-                            <li>✅ Team sharing</li>
-                            <li>✅ Advanced analytics</li>
-                            <li>✅ AI insights</li>
-                            <li>✅ Priority support</li>
-                        </ul>
-                        <button class="btn btn--primary clickable pulse">Start Free Trial</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script src="app.js"></script>
-</body>
-</html>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Animate in
+    setTimeout(() => notification.classList.add('show'), 100);
+    
+    // Remove after delay
+    setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => notification.remove(), 300);
+    }, 3000);
+}
