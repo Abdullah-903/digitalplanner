@@ -2,6 +2,8 @@
 
 // Global state
 let currentTab = 'dashboard';
+let currentUser = null;
+let userSubscription = 'free'; // 'free', 'basic', 'pro', 'premium'
 let tasks = [
     { id: 1, title: 'Review quarterly reports', priority: 'high', completed: false, dueDate: '2025-07-22' },
     { id: 2, title: 'Team standup meeting', priority: 'medium', completed: true, dueDate: '2025-07-22' },
@@ -33,6 +35,7 @@ const tabContents = document.querySelectorAll('.tab-content');
 const addTaskModal = document.getElementById('addTaskModal');
 const addGoalModal = document.getElementById('addGoalModal');
 const upgradeModal = document.getElementById('upgradeModal');
+const authModal = document.getElementById('authModal');
 
 // Initialize app
 document.addEventListener('DOMContentLoaded', function() {
@@ -43,6 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
     renderHabits();
     renderTemplates();
     renderWeeklyGoals();
+    updateUIForUser();
     updateDashboardStats();
 });
 
@@ -196,6 +200,9 @@ function setupWeeklyGoalInteractions() {
     document.querySelector('.add-weekly-goal-btn')?.addEventListener('click', () => {
         showUpgradePrompt('Adding custom weekly goals requires a premium subscription');
     });
+    
+    // Authentication
+    setupAuthenticationHandlers();
 }
 
 function closeModals() {
@@ -596,13 +603,171 @@ function showUpgradePrompt(message = 'This feature requires a premium subscripti
     }, 2000);
 }
 
+function setupAuthenticationHandlers() {
+    // Auth button
+    document.getElementById('authBtn')?.addEventListener('click', () => {
+        authModal.style.display = 'flex';
+    });
+
+    // Form switching
+    document.getElementById('switchToSignUp')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        switchAuthForm('signup');
+    });
+
+    document.getElementById('switchToSignIn')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        switchAuthForm('signin');
+    });
+
+    // Form submissions
+    document.getElementById('signInForm')?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        handleSignIn();
+    });
+
+    document.getElementById('signUpForm')?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        handleSignUp();
+    });
+}
+
+function switchAuthForm(type) {
+    const signInForm = document.getElementById('signInForm');
+    const signUpForm = document.getElementById('signUpForm');
+    const modalTitle = document.getElementById('authModalTitle');
+
+    if (type === 'signup') {
+        signInForm.style.display = 'none';
+        signUpForm.style.display = 'block';
+        modalTitle.textContent = 'Create Your Account';
+    } else {
+        signInForm.style.display = 'block';
+        signUpForm.style.display = 'none';
+        modalTitle.textContent = 'Sign In to PlannerPro';
+    }
+}
+
+function handleSignIn() {
+    const email = document.getElementById('signInEmail').value;
+    const password = document.getElementById('signInPassword').value;
+
+    // Simulate authentication
+    if (email && password) {
+        // Mock user data - in real app, this would come from server
+        currentUser = {
+            name: email.split('@')[0],
+            email: email,
+            subscription: email.includes('premium') ? 'premium' : 
+                         email.includes('pro') ? 'pro' : 
+                         email.includes('basic') ? 'basic' : 'free'
+        };
+        
+        userSubscription = currentUser.subscription;
+        
+        closeModals();
+        updateUIForUser();
+        showNotification(`Welcome back, ${currentUser.name}! 👋`, 'success');
+        
+        // Reset form
+        document.getElementById('signInForm').reset();
+    }
+}
+
+function handleSignUp() {
+    const name = document.getElementById('signUpName').value;
+    const email = document.getElementById('signUpEmail').value;
+    const password = document.getElementById('signUpPassword').value;
+    const confirmPassword = document.getElementById('signUpConfirmPassword').value;
+
+    if (password !== confirmPassword) {
+        showNotification('Passwords do not match!', 'error');
+        return;
+    }
+
+    if (name && email && password) {
+        // Mock user creation
+        currentUser = {
+            name: name,
+            email: email,
+            subscription: 'free'
+        };
+        
+        userSubscription = 'free';
+        
+        closeModals();
+        updateUIForUser();
+        showNotification(`Welcome to PlannerPro, ${currentUser.name}! 🎉`, 'success');
+        
+        // Reset form
+        document.getElementById('signUpForm').reset();
+    }
+}
+
+function updateUIForUser() {
+    const authBtn = document.getElementById('authBtn');
+    const tierIndicator = document.querySelector('.current-tier');
+    const premiumTemplatesCard = document.getElementById('premiumTemplatesCard');
+    
+    if (currentUser) {
+        // Update auth button to show user profile
+        authBtn.innerHTML = `
+            <div class="user-profile">
+                <div class="user-avatar">${currentUser.name.charAt(0).toUpperCase()}</div>
+                <div class="user-info">
+                    <span class="user-name">${currentUser.name}</span>
+                    <span class="user-tier ${userSubscription}">${userSubscription.charAt(0).toUpperCase() + userSubscription.slice(1)}</span>
+                </div>
+            </div>
+        `;
+        authBtn.onclick = () => signOut();
+        
+        // Update tier indicator
+        tierIndicator.textContent = `${userSubscription.charAt(0).toUpperCase() + userSubscription.slice(1)} Tier`;
+        
+        // Show premium templates for premium users
+        if (userSubscription === 'premium' || userSubscription === 'pro') {
+            premiumTemplatesCard.style.display = 'block';
+        } else {
+            premiumTemplatesCard.style.display = 'none';
+        }
+        
+        // Update tier indicator color
+        if (userSubscription === 'premium') {
+            tierIndicator.style.background = 'linear-gradient(135deg, #FFD700, #FFA500)';
+            tierIndicator.style.color = '#000';
+        } else if (userSubscription === 'pro') {
+            tierIndicator.style.background = 'linear-gradient(135deg, var(--color-primary), var(--color-secondary))';
+            tierIndicator.style.color = 'white';
+        } else if (userSubscription === 'basic') {
+            tierIndicator.style.background = 'rgba(245, 158, 11, 0.2)';
+            tierIndicator.style.color = '#F59E0B';
+        }
+    } else {
+        // Reset to default state
+        authBtn.innerHTML = 'Sign In';
+        authBtn.onclick = () => authModal.style.display = 'flex';
+        tierIndicator.textContent = 'Free Tier';
+        tierIndicator.style.background = '';
+        tierIndicator.style.color = '';
+        premiumTemplatesCard.style.display = 'none';
+    }
+}
+
+function signOut() {
+    currentUser = null;
+    userSubscription = 'free';
+    updateUIForUser();
+    showNotification('Signed out successfully! 👋', 'info');
+}
+
 function showNotification(message, type = 'info') {
     const notification = document.createElement('div');
     notification.className = `notification ${type}`;
     notification.innerHTML = `
         <div class="notification-content">
             <span class="notification-icon">
-                ${type === 'success' ? '✅' : type === 'upgrade' ? '👑' : 'ℹ️'}
+                ${type === 'success' ? '✅' : type === 'upgrade' ? '👑' : type === 'error' ? '❌' : 'ℹ️'}
             </span>
             <span class="notification-message">${message}</span>
         </div>
